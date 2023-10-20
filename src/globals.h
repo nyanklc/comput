@@ -1,5 +1,5 @@
-#ifndef COMPUT_GLOBALS_H_
-#define COMPUT_GLOBALS_H_
+#ifndef COMPUT_GLOBALS_H
+#define COMPUT_GLOBALS_H
 
 #include <SDL.h>
 
