@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.27.4)
 project(comput C)
 
 # export compile commands for clangd database
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 # compiler
 set(CMAKE_C_COMPILER clang)
