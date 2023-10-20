@@ -1,3 +1,8 @@
+#ifndef COMPUT_GLOBALS_H_
+#define COMPUT_GLOBALS_H_
+
 #include <SDL.h>
 
 #define COMPUT_SDL_INIT_LIST SDL_INIT_VIDEO  | SDL_INIT_AUDIO  | SDL_INIT_TIMER  | SDL_INIT_EVENTS
+
+#endif
