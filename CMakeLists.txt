@@ -11,9 +11,15 @@ set(CMAKE_C_COMPILER clang)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-if (NOT DEFINED ENV{COMPUT_DEBUG})
-  # release
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -std=c17")
+if (NOT DEFINED ENV{COMPUT_BUILD_DEBUG})
+  if (NOT DEFINED ENV{COMPUT_BUILD_O3})
+    # release
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -std=c17")
+  else()
+    # o3 optimized
+    message("comput - Building with O3 optimizations.")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -std=c17")
+  endif()
 else()
   # debug
   message("comput - Building in debug mode.")
@@ -21,9 +27,10 @@ else()
 endif()
 
 add_executable(main src/main.c)
+target_link_libraries(main ${SDL2_LIBRARIES})
 
 # tests
-if (DEFINED ENV{COMPUT_BUILD_TESTS})
+if (DEFINED ENV{COMPUT_BUILD_TEST})
   message("comput - Building tests.")
   add_executable(verify_sdl test/verify_sdl.c)
   # add_dependencies(verify_sdl ${SDL2_LIBRARIES}) # TODO: somehow this gives error, investigate
