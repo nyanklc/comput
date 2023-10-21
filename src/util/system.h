@@ -7,6 +7,9 @@
 
 #include <SDL.h>
 
+namespace comput
+{
+
 class ComputSystem
 {
 public:
@@ -27,5 +30,7 @@ public:
     SDL_Quit(); 
   }
 };
+
+} // namespace comput
 
 #endif
