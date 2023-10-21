@@ -22,11 +22,6 @@ int main(int argc, char **argv)
   if (!windowHandler.setRenderer("asd"))
     return 1;
 
-
-#ifdef COMPUT_DEBUG
-  windowHandler.print();
-#endif
-
   // SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
   // SDL_RenderClear(renderer);
   // SDL_RenderPresent(renderer);
