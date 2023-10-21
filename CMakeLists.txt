@@ -9,10 +9,21 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 set(CMAKE_CXX_COMPILER g++)
 
 # libs
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
+# windows can't find sdl automatically
+# use environment variables holding the path to sdl installation for now
+# TODO: still can't get it to compile on windows without manually copying header files from sdl
+if (WIN32 OR MSVC)
+  set(SDL2_INCLUDE_DIRS "include/SDL/") # TODO: remove this
+  # set(SDL2_INCLUDE_DIRS $ENV{COMPUT_SDL2_INCLUDE_DIRS}) # TODO: uncomment this
+  set(SDL2_LIBRARIES $ENV{COMPUT_SDL2_LIBRARIES})
+  message("comput - Building for Windows.")
+  message("SDL2 INCLUDE DIRECTORIES: ${SDL2_INCLUDE_DIRS}")
+  message("SDL2 LIBRARIES: ${SDL2_LIBRARIES}")
+else()
+  find_package(SDL2 REQUIRED)
+endif()
 
-if (NOT DEFINED ENV{COMPUT_DEBUG})
+if (NOT DEFINED $ENV{COMPUT_DEBUG})
   # release
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DCMAKE_BUILD_TYPE=RelWithDebInfo -std=c++20 -Wall") # just use cmake release + debinfo for now
 else()
@@ -22,11 +33,11 @@ else()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DCMAKE_BUILD_TYPE=Debug -std=c++20 -Wall") # just use cmake debug for now
 endif()
 
-add_executable(comput src/main.cpp)
-target_link_libraries(comput ${SDL2_LIBRARIES})
+add_executable(comput_main src/main.cpp)
+target_link_libraries(comput_main ${SDL2_LIBRARIES})
 
 # tests
-if (DEFINED ENV{COMPUT_TEST})
+if (DEFINED $ENV{COMPUT_TEST})
   message("comput - Building tests.")
   add_executable(verify_sdl test/verify_sdl.cpp)
   # add_dependencies(verify_sdl ${SDL2_LIBRARIES}) # TODO: somehow this gives error, investigate
