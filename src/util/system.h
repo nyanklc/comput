@@ -15,6 +15,11 @@ class ComputSystem
 public:
   ComputSystem() {}
 
+  // TODO: is it okay to call quit twice?
+  // ~ComputSystem() {
+  //   quit();
+  // }
+
   static std::unique_ptr<ComputSystem> create()
   {
     return std::unique_ptr<ComputSystem>(new ComputSystem());

@@ -12,24 +12,24 @@
 #include <iostream>
 #endif
 
-namespace comput
-{
+namespace comput {
 
   /**
    * Class that holds window-renderer pairs.
    */
-  class WindowHandler
-  {
+  class WindowHandler {
   public:
-    WindowHandler()
-    {
+    WindowHandler() {
       _windows.clear();
     }
 
-    ~WindowHandler()
-    {
-      for (auto &it : _windows)
-      {
+    ~WindowHandler() {
+      // just in case
+      quit();
+    }
+
+    void quit() {
+      for (auto &it : _windows) {
         auto w = (it).first;
         auto r = (it).second;
         if (w)
@@ -48,8 +48,7 @@ namespace comput
           int h = COMPUT_WINDOW_DEFAULT_H,
           Uint32 flags = COMPUT_WINDOW_DEFAULT_FLAGS,
           bool resizable = true
-          )
-    {
+          ) {
       auto window = SDL_CreateWindow(title.c_str(), x, y, w, h, flags);
       if (!window)
       {
@@ -63,8 +62,7 @@ namespace comput
       return true;
     }
 
-    bool setRenderer(std::string title, int index = COMPUT_RENDERER_DEFAULT_INDEX, Uint32 flags = COMPUT_RENDERER_DEFAULT_FLAGS)
-    {
+    bool setRenderer(std::string title, int index = COMPUT_RENDERER_DEFAULT_INDEX, Uint32 flags = COMPUT_RENDERER_DEFAULT_FLAGS) {
       auto winren = _findWindow(title);
       if (!winren.first) // window doesn't exist
         return false;
@@ -76,8 +74,7 @@ namespace comput
       return true;
     }
 
-    bool resizeWindow(std::string title, int newW, int newH)
-    {
+    bool resizeWindow(std::string title, int newW, int newH) {
       auto winren = _findWindow(title);
       if (!winren.first)
         return false;
@@ -87,8 +84,7 @@ namespace comput
     }
 
 #ifdef COMPUT_DEBUG
-    void print()
-    {
+    void print() {
       std::cout << std::endl << "Printing window-renderer pairs.\n";
       for (auto &it : _windows)
       {
@@ -101,8 +97,7 @@ namespace comput
       std::cout << std::endl;
     }
 
-    void printWinRen(std::pair<SDL_Window *, SDL_Renderer *> &winren)
-    {
+    void printWinRen(std::pair<SDL_Window *, SDL_Renderer *> &winren) {
       std::cout << "winren: " << winren.first << ", " << winren.second << ", title " << SDL_GetWindowTitle(winren.first) << std::endl;
     }
 #endif
@@ -113,8 +108,7 @@ namespace comput
     std::vector<window_renderer_t> _windows;
 
     // This is a very inefficient way of handling things, but there won't be many windows in the application so it shouldn't be a problem.
-    std::pair<SDL_Window *, SDL_Renderer *>_findWindow(std::string &title)
-    {
+    std::pair<SDL_Window *, SDL_Renderer *>_findWindow(std::string &title) {
       SDL_Window *w = 0;
       SDL_Renderer *r = 0;
       for (auto &it : _windows)
