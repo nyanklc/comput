@@ -1,2 +1,2 @@
 #!/bin/sh
-./build/comput
+./build/comput_main
