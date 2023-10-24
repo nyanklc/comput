@@ -25,7 +25,7 @@ message("comput - Building for *nix.")
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 find_package(Eigen3 REQUIRED)
-include_directories(${Eigen3_INCLUDE_DIRS})
+include_directories(${EIGEN3_INCLUDE_DIR})
 endif()
 
 if (NOT $ENV{COMPUT_DEBUG})
@@ -40,7 +40,7 @@ else()
 endif()
 
 # links to all targets defined after this call
-link_libraries(${SDL2_LIBRARIES} ${Eigen3_LIBRARIES})
+link_libraries(${SDL2_LIBRARIES})
 
 add_executable(comput_main src/main.cpp)
 

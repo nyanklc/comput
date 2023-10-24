@@ -1,7 +1,7 @@
 #ifndef COMPUT_UTIL_VELOCITY_H
 #define COMPUT_UTIL_VELOCITY_H
 
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 namespace comput {
 
