@@ -18,9 +18,12 @@ namespace comput {
    * Class that holds window-renderer pairs.
    */
   class WindowHandler {
+    typedef std::pair<SDL_Window *, SDL_Renderer *> window_renderer_t;
+
   public:
     WindowHandler() {
       _windows.clear();
+      _noWinRen = window_renderer_t(0, 0);
     }
 
     ~WindowHandler() {
@@ -41,7 +44,7 @@ namespace comput {
     }
 
     bool createWindow(
-          std::string title,
+          std::string &title,
           int x = SDL_WINDOWPOS_CENTERED,
           int y = SDL_WINDOWPOS_CENTERED,
           int w = COMPUT_WINDOW_DEFAULT_W,
@@ -62,11 +65,12 @@ namespace comput {
       return true;
     }
 
-    bool setRenderer(std::string title, int index = COMPUT_RENDERER_DEFAULT_INDEX, Uint32 flags = COMPUT_RENDERER_DEFAULT_FLAGS) {
-      auto winren = _findWindow(title);
+    bool setRenderer(std::string &title, int index = COMPUT_RENDERER_DEFAULT_INDEX, Uint32 flags = COMPUT_RENDERER_DEFAULT_FLAGS) {
+      auto winren_i = _findWindow(title);
+      auto &winren = _windows[winren_i];
       if (!winren.first) // window doesn't exist
         return false;
-      if (winren.second) // the window has a renderer
+      if (winren.second) // window already has a renderer
         return false;
       winren.second = SDL_CreateRenderer(winren.first, index, flags);
       if (!winren.second)
@@ -74,13 +78,32 @@ namespace comput {
       return true;
     }
 
-    bool resizeWindow(std::string title, int newW, int newH) {
-      auto winren = _findWindow(title);
+    bool resizeWindow(std::string &title, int newW, int newH) {
+      auto winren_i = _findWindow(title);
+      auto winren = _windows[winren_i];
       if (!winren.first)
         return false;
-    
       SDL_SetWindowSize(winren.first, newW, newH);            
       return true;
+    }
+
+    void clear(std::string &title) {
+      auto winren_i = _findWindow(title);
+      auto winren = _windows[winren_i];
+      if (!winren.first) return;
+      SDL_RenderClear( winren.second );
+    }
+
+    void update(std::string &title) {
+      auto winren_i = _findWindow(title);
+      auto winren = _windows[winren_i];
+      if (!winren.first) return;
+      SDL_UpdateWindowSurface( winren.first );
+    }
+
+    window_renderer_t &getWinRen(std::string &title) {
+      auto winren_i = _findWindow(title);
+      return _windows[winren_i];
     }
 
 #ifdef COMPUT_DEBUG
@@ -103,26 +126,22 @@ namespace comput {
 #endif
 
   private:
-    typedef std::pair<SDL_Window *, SDL_Renderer *> window_renderer_t;
     // We'll allow windows without a renderer, but not the other way around.
     std::vector<window_renderer_t> _windows;
+    window_renderer_t _noWinRen;
 
     // This is a very inefficient way of handling things, but there won't be many windows in the application so it shouldn't be a problem.
-    std::pair<SDL_Window *, SDL_Renderer *>_findWindow(std::string &title) {
-      SDL_Window *w = 0;
-      SDL_Renderer *r = 0;
-      for (auto &it : _windows)
+    size_t _findWindow(std::string &title) {
+      for (size_t i = 0; i < _windows.size(); i++)
       {
-        std::string t = SDL_GetWindowTitle((it).first);
+        std::string t = SDL_GetWindowTitle(_windows[i].first);
         // TODO: using t.c_str() == title.c_str() fails
         if (t == title)
         {
-          w = it.first;
-          r = it.second;
-          break;
+          return i;
         }
       }
-      return std::pair(w, r);
+      return -1;
     }
 
   };
