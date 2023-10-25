@@ -10,20 +10,21 @@
 namespace comput {
 
 class Object {
-public:
+ public:
   Object(int x = 0, int y = 0, const Velocity &vel = Velocity::zero()) {
     _pos.x = x;
     _pos.y = y;
     _vel = vel;
   }
 
-  void applyForce(Force &f, float dt = COMPUT_SIMULATION_DEFAULT_TIMESTEP);
+  virtual void applyForce(Force &f,
+                          float dt = COMPUT_SIMULATION_DEFAULT_TIMESTEP);
 
-private:
+ private:
   Position _pos;
   Velocity _vel;
   Mass _mass;
 };
 
-}
+}  // namespace comput
 #endif

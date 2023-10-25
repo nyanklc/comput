@@ -5,9 +5,9 @@
 
 namespace comput {
 
-  // Powers of 10
-  typedef int8_t Unit;
+// Powers of 10
+typedef int8_t Unit;
 
-}
+}  // namespace comput
 
 #endif

@@ -3,20 +3,18 @@
 
 namespace comput {
 
-  struct Position
-  {
-  public:
-    float x = 0;
-    float y = 0;
-  };
+struct Position {
+ public:
+  float x = 0;
+  float y = 0;
+};
 
-  struct IPosition
-  {
-  public:
-    int x = 0;
-    int y = 0;
-  };
+struct IPosition {
+ public:
+  int x = 0;
+  int y = 0;
+};
 
-}
+}  // namespace comput
 
 #endif

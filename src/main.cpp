@@ -1,16 +1,12 @@
-#include "util/system.h"
-#include "window_handler.h"
+#include <SDL.h>
 
 #include <iostream>
 #include <memory>
 
-#include <SDL.h>
+#include "util/system.h"
+#include "window_handler.h"
 
 using namespace comput;
-
-void update() {
-
-}
 
 int main(int argc, char **argv) {
   // obj
@@ -56,6 +52,7 @@ int main(int argc, char **argv) {
     }
 
     // TODO: update (also update rendered screen in the engine update)
+    windowHandler.drawShapes(mainWindowName);
 
     // draw
     windowHandler.clear(mainWindowName);
@@ -69,7 +66,8 @@ int main(int argc, char **argv) {
 
   windowHandler.quit();
   system->quit();
-  // TODO: segmentation fault at the end of the program in WSL... is that an issue with wsl display server? check.
-  // backtrace on gdb points to wsl libraries
+  // TODO: segmentation fault at the end of the program in WSL... is that an
+  // issue with wsl display server? check. backtrace on gdb points to wsl
+  // libraries
   return 0;
 }

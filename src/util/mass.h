@@ -5,12 +5,12 @@
 
 namespace comput {
 
-  class Mass {
-  public:
-    float value;
-    Unit unit;
-  };
+class Mass {
+ public:
+  float value;
+  Unit unit;
+};
 
-}
+}  // namespace comput
 
 #endif

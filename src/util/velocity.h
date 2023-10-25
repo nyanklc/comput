@@ -5,37 +5,27 @@
 
 namespace comput {
 
-  struct Velocity {
-  public:
-    Eigen::Vector2f vec;
+struct Velocity {
+ public:
+  Eigen::Vector2f vec;
 
-    Velocity() {
-      vec = Eigen::Vector2f(0, 0);
-    }
+  Velocity() { vec = Eigen::Vector2f(0, 0); }
 
-    Velocity(const Eigen::Vector2f &vel) {
-      vec = vel;
-    }
+  Velocity(const Eigen::Vector2f &vel) { vec = vel; }
 
-    Velocity(const Velocity &rhs) {
-      vec = rhs.vec;
-    }
+  Velocity(const Velocity &rhs) { vec = rhs.vec; }
 
-    inline void operator=(const Velocity &rhs) {
-      vec = rhs.vec;
-    }
+  inline void operator=(const Velocity &rhs) { vec = rhs.vec; }
 
-    static Velocity zero() {
-      Velocity vel;
-      vel.vec = Eigen::Vector2f(0, 0);
-      return vel;
-    }
+  static Velocity zero() {
+    Velocity vel;
+    vel.vec = Eigen::Vector2f(0, 0);
+    return vel;
+  }
 
-    void operator+=(const Eigen::Vector2f &a) {
-      vec += a;
-    }
-  };
+  void operator+=(const Eigen::Vector2f &a) { vec += a; }
+};
 
-}
+}  // namespace comput
 
 #endif
