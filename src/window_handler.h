@@ -108,6 +108,14 @@ class WindowHandler {
     return _windows[winren_i];
   }
 
+  SDL_Window *getWindow(std::string &title) {
+    return _findWindow(title);
+  }
+
+  SDL_Renderer *getRenderer(std::string &title) {
+    return _findRenderer(title);
+  }
+
 #ifdef COMPUT_DEBUG
   void print() {
     std::cout << std::endl << "Printing window-renderer pairs.\n";
@@ -135,11 +143,17 @@ class WindowHandler {
   window_renderer_t _noWinRen;
 
   SDL_Window *_findWindow(std::string &title) {
-    return _windows[_findWinRen(title)].first;
+    auto index = _findWinRen(title);
+    if (index == -1)
+      return 0;
+    return _windows[index].first;
   }
 
   SDL_Renderer *_findRenderer(std::string &title) {
-    return _windows[_findWinRen(title)].second;
+    auto index = _findWinRen(title);
+    if (index == -1)
+      return 0;
+    return _windows[index].second;
   }
 
   void _drawCircle(SDL_Renderer *renderer, int32_t centreX, int32_t centreY,
@@ -181,7 +195,8 @@ class WindowHandler {
 
   // This is a very inefficient way of handling things, but there won't be
   // many windows in the application so it shouldn't be a problem.
-  size_t _findWinRen(std::string &title) {
+  // Returns index to be used in _windows container.
+  int _findWinRen(std::string &title) {
     for (size_t i = 0; i < _windows.size(); i++) {
       std::string t = SDL_GetWindowTitle(_windows[i].first);
       // TODO: using t.c_str() == title.c_str() fails

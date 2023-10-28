@@ -26,12 +26,12 @@ int main(int argc, char **argv) {
     std::cerr << "Could not create renderer.";
     return 1;
   }
-  auto mainWindow = windowHandler.getWinRen(mainWindowName).first;
+  auto mainWindow = windowHandler.getWindow(mainWindowName);
   if (!mainWindow) {
     std::cerr << "Main window null.";
     return 1;
   }
-  auto mainRenderer = windowHandler.getWinRen(mainWindowName).second;
+  auto mainRenderer = windowHandler.getRenderer(mainWindowName);
   if (!mainRenderer) {
     std::cerr << "Main renderer null.";
     return 1;
