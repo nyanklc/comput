@@ -1,8 +1,10 @@
+// TODO: carry method implementations to source file
 #ifndef COMPUT_WINDOW_HANDLER_H
 #define COMPUT_WINDOW_HANDLER_H
 
 #include <SDL.h>
 
+#include <SDL_render.h>
 #include <string>
 #include <vector>
 
@@ -42,13 +44,17 @@ class WindowHandler {
     _windows.clear();
   }
 
-  // TODO:
-  void drawShapes(std::string &title) {
-    auto renderer = _findRenderer(title);
-    _setColor(title, 255, 100, 100, 255);
-    _drawCircle(renderer, COMPUT_WINDOW_DEFAULT_W / 2,
-                COMPUT_WINDOW_DEFAULT_H / 2, 100);
+  void update(SDL_Renderer *renderer) {
+    SDL_RenderPresent(renderer);
   }
+
+  void clear(SDL_Renderer *renderer) {
+    SDL_RenderClear(renderer);
+  }
+
+  // TODO:
+  // This only draws on SDL backbuffer. Call update() to actually draw things.
+  void drawShapes(SDL_Renderer *renderer, std::vector<Shape> &shapes);
 
   bool createWindow(std::string &title, int x = SDL_WINDOWPOS_CENTERED,
                     int y = SDL_WINDOWPOS_CENTERED,
@@ -89,19 +95,6 @@ class WindowHandler {
     return true;
   }
 
-  void clear(std::string &title) {
-    auto winren_i = _findWinRen(title);
-    auto winren = _windows[winren_i];
-    if (!winren.first) return;
-    SDL_RenderClear(winren.second);
-  }
-
-  void update(std::string &title) {
-    auto winren_i = _findWinRen(title);
-    auto winren = _windows[winren_i];
-    if (!winren.first) return;
-    SDL_UpdateWindowSurface(winren.first);
-  }
 
   window_renderer_t &getWinRen(std::string &title) {
     auto winren_i = _findWinRen(title);
@@ -156,42 +149,42 @@ class WindowHandler {
     return _windows[index].second;
   }
 
-  void _drawCircle(SDL_Renderer *renderer, int32_t centreX, int32_t centreY,
-                   int32_t radius) {
-    const int32_t diameter = (radius * 2);
-    int32_t x = (radius - 1);
-    int32_t y = 0;
-    int32_t tx = 1;
-    int32_t ty = 1;
-    int32_t error = (tx - diameter);
-    while (x >= y) {
-      //  Each of the following renders an octant of the circle
-      SDL_RenderDrawPoint(renderer, centreX + x, centreY - y);
-      SDL_RenderDrawPoint(renderer, centreX + x, centreY + y);
-      SDL_RenderDrawPoint(renderer, centreX - x, centreY - y);
-      SDL_RenderDrawPoint(renderer, centreX - x, centreY + y);
-      SDL_RenderDrawPoint(renderer, centreX + y, centreY - x);
-      SDL_RenderDrawPoint(renderer, centreX + y, centreY + x);
-      SDL_RenderDrawPoint(renderer, centreX - y, centreY - x);
-      SDL_RenderDrawPoint(renderer, centreX - y, centreY + x);
-      if (error <= 0) {
-        ++y;
-        error += ty;
-        ty += 2;
-      }
-      if (error > 0) {
-        --x;
-        tx += 2;
-        error += (tx - diameter);
-      }
-    }
-  }
+  // void _drawCircle(SDL_Renderer *renderer, int32_t centreX, int32_t centreY,
+  //                  int32_t radius) {
+  //   const int32_t diameter = (radius * 2);
+  //   int32_t x = (radius - 1);
+  //   int32_t y = 0;
+  //   int32_t tx = 1;
+  //   int32_t ty = 1;
+  //   int32_t error = (tx - diameter);
+  //   while (x >= y) {
+  //     //  Each of the following renders an octant of the circle
+  //     SDL_RenderDrawPoint(renderer, centreX + x, centreY - y);
+  //     SDL_RenderDrawPoint(renderer, centreX + x, centreY + y);
+  //     SDL_RenderDrawPoint(renderer, centreX - x, centreY - y);
+  //     SDL_RenderDrawPoint(renderer, centreX - x, centreY + y);
+  //     SDL_RenderDrawPoint(renderer, centreX + y, centreY - x);
+  //     SDL_RenderDrawPoint(renderer, centreX + y, centreY + x);
+  //     SDL_RenderDrawPoint(renderer, centreX - y, centreY - x);
+  //     SDL_RenderDrawPoint(renderer, centreX - y, centreY + x);
+  //     if (error <= 0) {
+  //       ++y;
+  //       error += ty;
+  //       ty += 2;
+  //     }
+  //     if (error > 0) {
+  //       --x;
+  //       tx += 2;
+  //       error += (tx - diameter);
+  //     }
+  //   }
+  // }
 
-  void _setColor(std::string &title, uint8_t r, uint8_t g, uint8_t b,
-                 uint8_t a) {
-    auto renderer = _findRenderer(title);
+  void _setColor(SDL_Renderer *renderer, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
   }
+
+  void _drawRect(SDL_Renderer *renderer, SDL_Rect &rect, Color &before, Color &after);
 
   // This is a very inefficient way of handling things, but there won't be
   // many windows in the application so it shouldn't be a problem.
