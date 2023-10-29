@@ -46,9 +46,6 @@ class WindowHandler {
 
   void update(SDL_Renderer *renderer) {
     SDL_RenderPresent(renderer);
-  }
-
-  void clear(SDL_Renderer *renderer) {
     SDL_RenderClear(renderer);
   }
 
