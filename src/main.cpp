@@ -1,13 +1,23 @@
 #include <SDL.h>
 
+#include <chrono>
 #include <iostream>
 #include <memory>
 
+#include "engine.h"
+#include "globals.h"
 #include "util/system.h"
 #include "window_handler.h"
 
+#define SEC_NANO 1000000000.
+
 using namespace comput;
 
+inline std::chrono::high_resolution_clock::time_point now() {
+  return std::chrono::high_resolution_clock::now();
+}
+
+// TODO: make all units in nanoseconds as default
 int main(int argc, char **argv) {
   // obj
   auto system = ComputSystem::create();
@@ -15,6 +25,9 @@ int main(int argc, char **argv) {
 
   // system setup
   system->init();
+
+  ComputEngine engine;
+  engine.init();
 
   // window setup
   std::string mainWindowName = "noyan";
@@ -37,13 +50,13 @@ int main(int argc, char **argv) {
     return 1;
   }
 
+  SDL_RenderClear(mainRenderer);
+
   // main loop
   SDL_Event e;
   bool quit = false;
+  auto last_update_time = now();
   while (!quit) {
-    // profiling
-    auto start_time = SDL_GetTicks();
-
     // events
     while (SDL_PollEvent(&e)) {
       if (e.type == SDL_QUIT) {
@@ -51,16 +64,20 @@ int main(int argc, char **argv) {
       }
     }
 
-    // TODO: update (also update rendered screen in the engine update)
-    // draw/update
-    std::vector<Shape> dummyShapes;
-    windowHandler.drawShapes(mainRenderer, dummyShapes);
-    windowHandler.update(mainRenderer);
+    // update (every millisecond)
+    auto since_last_update =  (now() - last_update_time).count();
+    if (since_last_update > SEC_NANO / COMPUT_DT_LIMIT) {
+      engine.update((now() - last_update_time).count());
+      std::vector<Shape> dummyShapes;
+      windowHandler.drawShapes(mainRenderer, dummyShapes);
+      windowHandler.update(mainRenderer);
 
-    // profiling
-    auto frame_time = SDL_GetTicks() - start_time;
-    auto fps = (frame_time > 0) ? 1000.0f / frame_time : 0.0f;
-    std::cout << "fps: " << fps << std::endl;
+      // profiling
+      auto frame_time = now() - last_update_time; // nanoseconds
+      double fps = SEC_NANO / frame_time.count();
+      std::cout << "fps: " << fps << std::endl;
+      last_update_time = now();
+    }
   }
 
   windowHandler.quit();

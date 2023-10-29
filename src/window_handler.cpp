@@ -4,8 +4,10 @@ namespace comput {
 
   // TODO: colors should be inside shapes?
   void WindowHandler::drawShapes(SDL_Renderer *renderer, std::vector<Shape> &shapes) {
+    static int xx = 100;
+    xx++;
     SDL_Rect rect;
-    rect.x = 100;
+    rect.x = xx;
     rect.y = 100; 
     rect.w = 100;
     rect.h = 100;

@@ -47,10 +47,12 @@ add_executable(comput_main src/main.cpp)
 target_link_libraries(comput_main
   comput_object
   comput_window_handler
+  comput_engine
   )
 
 add_library(comput_object src/object.cpp)
 add_library(comput_window_handler src/window_handler.cpp)
+add_library(comput_engine src/engine.cpp)
 
 # tests
 if (DEFINED ENV{COMPUT_TEST})
