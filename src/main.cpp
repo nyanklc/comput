@@ -20,14 +20,12 @@ inline std::chrono::high_resolution_clock::time_point now() {
 // TODO: make all units in nanoseconds as default
 int main(int argc, char **argv) {
   // obj
+  ComputEngine engine;
   auto system = ComputSystem::create();
   WindowHandler windowHandler;
 
   // system setup
   system->init();
-
-  ComputEngine engine;
-  engine.init();
 
   // window setup
   std::string mainWindowName = "noyan";
@@ -52,10 +50,22 @@ int main(int argc, char **argv) {
 
   SDL_RenderClear(mainRenderer);
 
+  // engine setup
+  // TODO:
+  SDL_Color objColor;
+  objColor.r = 255;
+  objColor.g = 0;
+  objColor.b = 255;
+  objColor.a = 255;
+  Object obj(0, 0, 30, 30, objColor, Velocity::zero(), 100);
+  Object obj2(100, 100, 20, 20, objColor, Velocity::zero(), 10);
+  engine.createObject(obj);
+  engine.createObject(obj2);
+
   // main loop
   SDL_Event e;
   bool quit = false;
-  auto last_update_time = now();
+  auto lastUpdateTime = now();
   while (!quit) {
     // events
     while (SDL_PollEvent(&e)) {
@@ -64,19 +74,28 @@ int main(int argc, char **argv) {
       }
     }
 
-    // update (every millisecond)
-    auto since_last_update =  (now() - last_update_time).count();
-    if (since_last_update > SEC_NANO / COMPUT_DT_LIMIT) {
-      engine.update((now() - last_update_time).count());
-      std::vector<Shape> dummyShapes;
-      windowHandler.drawShapes(mainRenderer, dummyShapes);
+    // update
+    auto sinceLastUpdate =  (now() - lastUpdateTime).count();
+    if (sinceLastUpdate > SEC_NANO / COMPUT_DT_LIMIT) {
+      auto engineObjects = engine.getObjects();
+#ifdef COMPUT_DEBUG
+      for (int i = 0; i < engineObjects.size(); i++) {
+        std::cout << "PRINTING OBJECT " << i << std::endl;
+        engineObjects[i].print();
+      }
+#endif
+
+      engine.applyGravity((now() - lastUpdateTime).count() / SEC_NANO);
+      engine.update((now() - lastUpdateTime).count() / SEC_NANO);
+
+      windowHandler.drawObjects(mainRenderer, engineObjects);
       windowHandler.update(mainRenderer);
 
       // profiling
-      auto frame_time = now() - last_update_time; // nanoseconds
+      auto frame_time = now() - lastUpdateTime; // nanoseconds
       double fps = SEC_NANO / frame_time.count();
       std::cout << "fps: " << fps << std::endl;
-      last_update_time = now();
+      lastUpdateTime = now();
     }
   }
 

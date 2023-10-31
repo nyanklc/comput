@@ -46,12 +46,12 @@ class WindowHandler {
 
   void update(SDL_Renderer *renderer) {
     SDL_RenderPresent(renderer);
-    SDL_RenderClear(renderer);
+    SDL_RenderClear(renderer); // clear for next update
   }
 
-  // TODO:
+
   // This only draws on SDL backbuffer. Call update() to actually draw things.
-  void drawShapes(SDL_Renderer *renderer, std::vector<Shape> &shapes);
+  void drawObjects(SDL_Renderer *renderer, std::vector<Object> &objects);
 
   bool createWindow(std::string &title, int x = SDL_WINDOWPOS_CENTERED,
                     int y = SDL_WINDOWPOS_CENTERED,
@@ -181,7 +181,7 @@ class WindowHandler {
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
   }
 
-  void _drawRect(SDL_Renderer *renderer, SDL_Rect &rect, Color &before, Color &after);
+  void _drawObjectRect(SDL_Renderer *renderer, Object &obj);
 
   // This is a very inefficient way of handling things, but there won't be
   // many windows in the application so it shouldn't be a problem.

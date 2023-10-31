@@ -9,6 +9,14 @@ struct Velocity {
  public:
   Eigen::Vector2f vec;
 
+  float x() {
+    return vec(0);
+  }
+
+  float y() {
+    return vec(1);
+  }
+
   Velocity() { vec = Eigen::Vector2f(0, 0); }
 
   Velocity(const Eigen::Vector2f &vel) { vec = vel; }

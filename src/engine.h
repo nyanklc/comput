@@ -11,15 +11,16 @@ namespace comput {
   public:
     ComputEngine() {}
 
-    void init() {
-      _shapes.clear();
-    }
-
-    // units are in nanoseconds
     void update(double dt);
 
+    void applyGravity(double dt);
+
+    void createObject(Object &obj);
+
+    std::vector<Object> &getObjects();
+
   private:
-    std::vector<Shape> _shapes;
+    std::vector<Object> _objects;
   };
 
 }

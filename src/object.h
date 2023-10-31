@@ -7,77 +7,63 @@
 #include "util/position.h"
 #include "util/velocity.h"
 
+#ifdef COMPUT_DEBUG
+#include <iostream>
+#endif
+
 namespace comput {
 
-struct Shape {
-};
 
-struct Color {
-public:
-  Color () {
-    r = 255;
-    g = 255;
-    b = 255;
-    a = 255;
-  }
+  // this is simply a wrapper on SDL_Rect
+  // objects are unique for now, there is no instantiation
+  class Object {
+  public:
+    Object(int x = 0, int y = 0, int w = 0, int h = 0,
+           const SDL_Color &col = {0, 0, 0, 255},
+           const Velocity &vel = Velocity::zero(),
+           const Mass &mass = 0);
 
-  Color(uint8_t rr, uint8_t gg, uint8_t bb, uint8_t aa) {
-    r = rr;
-    g = gg;
-    b = bb;
-    a = aa;
-  }
+    Object(const Object &other);
 
-  Color (const Color &rhs) {
-    r = rhs.r;
-    g = rhs.g;
-    b = rhs.b;
-    a = rhs.a;
-  }
+    virtual ~Object() {}
 
-  void operator=(const Color &rhs) {
-    r = rhs.r;
-    g = rhs.g;
-    b = rhs.b;
-    a = rhs.a;
-  }
+    void update(float dt = COMPUT_SIMULATION_DEFAULT_TIMESTEP);
 
-  bool operator==(const Color &rhs) {
-    if (
-        rhs.r == r &&
-        rhs.g == g &&
-        rhs.b == b &&
-        rhs.a == a
-       )
-      return true;
-    return false;
-  }
+    virtual void applyForce(Force &f,
+                            float dt = COMPUT_SIMULATION_DEFAULT_TIMESTEP);
 
-  uint8_t r;
-  uint8_t g;
-  uint8_t b;
-  uint8_t a;
-};
+    Velocity &getVelocity();
 
-class Object {
- public:
-  Object(int x = 0, int y = 0, const Velocity &vel = Velocity::zero()) {
-    _pos.x = x;
-    _pos.y = y;
-    _vel = vel;
-  }
+    Mass &getMass();
 
-  // TODO:
-  // Shape getShape();
+    SDL_Rect *getRect();
 
-  virtual void applyForce(Force &f,
-                          float dt = COMPUT_SIMULATION_DEFAULT_TIMESTEP);
+    void setVelocity(const Velocity &vel);
 
- private:
-  Position _pos;
-  Velocity _vel;
-  Mass _mass;
-};
+    void setMass(const Mass &mass);
+
+    void setRect(const SDL_Rect &rect);
+
+    void setColor(const SDL_Color &col);
+
+    SDL_Color &getColor();
+
+#ifdef COMPUT_DEBUG
+    void print() {
+      COMPUT_DEBUG_SEPARATOR;
+      std::cout << "Object " << this << std::endl;
+      std::cout << "rect: " << _rect.x << ", " << _rect.y << ", " << _rect.w << ", " << _rect.h << std::endl;
+      std::cout << "color: " << (int)_color.r << ", " << (int)_color.g << ", " << (int)_color.b << ", " << (int)_color.a << std::endl;
+      COMPUT_DEBUG_SEPARATOR;
+    }
+#endif
+
+  private:
+    SDL_Rect _rect;
+    Velocity _vel;
+    Mass _mass;
+    SDL_Color _color;
+  };
 
 }  // namespace comput
 #endif
