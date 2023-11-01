@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
   objColor.g = 0;
   objColor.b = 255;
   objColor.a = 255;
-  Object obj(0, 0, 30, 30, objColor, Velocity::zero(), 100);
+  Object obj(0, 0, 30, 30, objColor, Velocity::zero(), 1);
   Object obj2(100, 100, 20, 20, objColor, Velocity::zero(), 10);
   engine.createObject(obj);
   engine.createObject(obj2);
@@ -85,8 +85,10 @@ int main(int argc, char **argv) {
       }
 #endif
 
-      engine.applyGravity((now() - lastUpdateTime).count() / SEC_NANO);
-      engine.update((now() - lastUpdateTime).count() / SEC_NANO);
+      auto dt = (now() - lastUpdateTime).count() / SEC_NANO;
+      std::cout << "dt: " << dt << std::endl;
+      engine.applyGravity(dt);
+      engine.update(dt);
 
       windowHandler.drawObjects(mainRenderer, engineObjects);
       windowHandler.update(mainRenderer);

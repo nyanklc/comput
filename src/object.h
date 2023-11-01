@@ -59,6 +59,8 @@ namespace comput {
 #endif
 
   private:
+    double _x;
+    double _y;
     SDL_Rect _rect;
     Velocity _vel;
     Mass _mass;

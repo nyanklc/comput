@@ -4,6 +4,8 @@ namespace comput {
 
   Object::Object(int x, int y, int w, int h, const SDL_Color &col,
                  const Velocity &vel, const Mass &mass) {
+    _x = x;
+    _y = y;
     _rect.x = x;
     _rect.y = y;
     _rect.w = w;
@@ -18,6 +20,8 @@ namespace comput {
   }
 
   Object::Object(const Object &other) {
+    _x = other._x;
+    _y = other._y;
     _rect = other._rect;
     _vel = other._vel;
     _mass = other._mass;
@@ -30,8 +34,12 @@ namespace comput {
   // updates position with velocity (gravity is applied separately)
   // (via applyForce)
   void Object::update(float dt) {
-    _rect.x += _vel.x() * dt;
-    _rect.y += _vel.y() * dt;
+    std::cout << "object updating before " << _rect.x << ", " << _rect.y << std::endl;
+    _x += _vel.x() * dt; // mario
+    _y += _vel.y() * dt;
+    _rect.x = (int)_x;
+    _rect.y = (int)_y;
+    std::cout << "object updating after " << _rect.x << ", " << _rect.y << std::endl;
   }
 
   void Object::applyForce(Force &f, float dt) {
@@ -42,7 +50,7 @@ namespace comput {
     std::cout << "a: " << a << std::endl;
     std::cout << "vel before: " << _vel.vec << std::endl;
 #endif
-    _vel += a * dt;
+    _vel = _vel +  a * dt;
 #ifdef COMPUT_DEBUG
     std::cout << "vel after: " << _vel.vec << std::endl;
 #endif

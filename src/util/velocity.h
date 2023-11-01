@@ -19,7 +19,7 @@ struct Velocity {
 
   Velocity() { vec = Eigen::Vector2f(0, 0); }
 
-  Velocity(const Eigen::Vector2f &vel) { vec = vel; }
+  Velocity(const Eigen::Vector2f &velvec) { vec = velvec; }
 
   Velocity(const Velocity &rhs) { vec = rhs.vec; }
 
@@ -31,7 +31,12 @@ struct Velocity {
     return vel;
   }
 
-  void operator+=(const Eigen::Vector2f &a) { vec += a; }
+  Velocity operator+(const Eigen::Vector2f &a) {
+    Velocity v(vec);
+    v.vec = v.vec + a;
+    return v;
+  }
+
 };
 
 }  // namespace comput
