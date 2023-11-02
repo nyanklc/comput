@@ -33,14 +33,10 @@ Object::Object(const Object &other) {
 // updates position with velocity (gravity is applied separately)
 // (via applyForce)
 void Object::update(float dt) {
-  std::cout << "object updating before " << _rect.x << ", " << _rect.y
-            << std::endl;
   _x += _vel.x() * dt;  // mario
   _y += _vel.y() * dt;
   _rect.x = (int)_x;
   _rect.y = (int)_y;
-  std::cout << "object updating after " << _rect.x << ", " << _rect.y
-            << std::endl;
 }
 
 void Object::applyForce(Force &f, float dt) {

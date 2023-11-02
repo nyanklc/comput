@@ -13,7 +13,7 @@ class ComputEngine {
 
   void update(double dt);
 
-  void applyGravity(double dt);
+  void applyGravity();
 
   void createObject(Object &obj);
 

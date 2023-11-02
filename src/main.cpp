@@ -67,7 +67,8 @@ int main(int argc, char **argv) {
   bool quit = false;
   auto lastUpdateTime = now();
   while (!quit) {
-    // events
+    // TODO: handling window resize is blocking currently, no other operations
+    // are completed (engine update etc.) events
     while (SDL_PollEvent(&e)) {
       if (e.type == SDL_QUIT) {
         quit = true;
@@ -87,7 +88,7 @@ int main(int argc, char **argv) {
 
       auto dt = (now() - lastUpdateTime).count() / SEC_NANO;
       std::cout << "dt: " << dt << std::endl;
-      engine.applyGravity(dt);
+      engine.applyGravity();
       engine.update(dt);
 
       windowHandler.drawObjects(mainRenderer, engineObjects);

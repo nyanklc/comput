@@ -9,11 +9,12 @@ void ComputEngine::update(double dt) {
 }
 
 // TODO:
-void ComputEngine::applyGravity(double dt) {
+void ComputEngine::applyGravity() {
   Force gravity;
   gravity.vec[0] = 0;
-  gravity.vec[1] = COMPUT_GRAVITY_CONSTANT * dt;  // downwards
+  gravity.vec[1] = COMPUT_GRAVITY_CONSTANT;  // downwards
   for (auto &obj : _objects) {
+    gravity.vec *= obj.getMass().value;
     obj.applyForce(gravity);
   }
 }
