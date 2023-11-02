@@ -9,13 +9,9 @@ struct Velocity {
  public:
   Eigen::Vector2f vec;
 
-  float x() {
-    return vec(0);
-  }
+  float x() { return vec(0); }
 
-  float y() {
-    return vec(1);
-  }
+  float y() { return vec(1); }
 
   Velocity() { vec = Eigen::Vector2f(0, 0); }
 
@@ -36,7 +32,6 @@ struct Velocity {
     v.vec = v.vec + a;
     return v;
   }
-
 };
 
 }  // namespace comput

@@ -11,13 +11,9 @@ struct Force {
  public:
   Eigen::Vector2f vec;
 
-  Force() {
-    vec = Eigen::Vector2f(0, 0);
-  }
+  Force() { vec = Eigen::Vector2f(0, 0); }
 
-  Force(const Force &other) {
-    vec = other.vec;
-  }
+  Force(const Force &other) { vec = other.vec; }
 
   static Force zero() {
     Force f;

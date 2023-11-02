@@ -21,7 +21,8 @@ namespace comput {
 #define COMPUT_GRAVITY_CONSTANT 9.80665
 
 #ifdef COMPUT_DEBUG
-#define COMPUT_DEBUG_SEPARATOR std::cout << "#########################" << std::endl
+#define COMPUT_DEBUG_SEPARATOR \
+  std::cout << "#########################" << std::endl
 #endif
 
 }  // namespace comput

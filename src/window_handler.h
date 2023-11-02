@@ -3,8 +3,8 @@
 #define COMPUT_WINDOW_HANDLER_H
 
 #include <SDL.h>
-
 #include <SDL_render.h>
+
 #include <string>
 #include <vector>
 
@@ -46,9 +46,8 @@ class WindowHandler {
 
   void update(SDL_Renderer *renderer) {
     SDL_RenderPresent(renderer);
-    SDL_RenderClear(renderer); // clear for next update
+    SDL_RenderClear(renderer);  // clear for next update
   }
-
 
   // This only draws on SDL backbuffer. Call update() to actually draw things.
   void drawObjects(SDL_Renderer *renderer, std::vector<Object> &objects);
@@ -92,19 +91,14 @@ class WindowHandler {
     return true;
   }
 
-
   window_renderer_t &getWinRen(std::string &title) {
     auto winren_i = _findWinRen(title);
     return _windows[winren_i];
   }
 
-  SDL_Window *getWindow(std::string &title) {
-    return _findWindow(title);
-  }
+  SDL_Window *getWindow(std::string &title) { return _findWindow(title); }
 
-  SDL_Renderer *getRenderer(std::string &title) {
-    return _findRenderer(title);
-  }
+  SDL_Renderer *getRenderer(std::string &title) { return _findRenderer(title); }
 
 #ifdef COMPUT_DEBUG
   void print() {
@@ -134,15 +128,13 @@ class WindowHandler {
 
   SDL_Window *_findWindow(std::string &title) {
     auto index = _findWinRen(title);
-    if (index == -1)
-      return 0;
+    if (index == -1) return 0;
     return _windows[index].first;
   }
 
   SDL_Renderer *_findRenderer(std::string &title) {
     auto index = _findWinRen(title);
-    if (index == -1)
-      return 0;
+    if (index == -1) return 0;
     return _windows[index].second;
   }
 
@@ -177,7 +169,8 @@ class WindowHandler {
   //   }
   // }
 
-  void _setColor(SDL_Renderer *renderer, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+  void _setColor(SDL_Renderer *renderer, uint8_t r, uint8_t g, uint8_t b,
+                 uint8_t a) {
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
   }
 

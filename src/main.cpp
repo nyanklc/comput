@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
     }
 
     // update
-    auto sinceLastUpdate =  (now() - lastUpdateTime).count();
+    auto sinceLastUpdate = (now() - lastUpdateTime).count();
     if (sinceLastUpdate > SEC_NANO / COMPUT_DT_LIMIT) {
       auto engineObjects = engine.getObjects();
 #ifdef COMPUT_DEBUG
@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
       windowHandler.update(mainRenderer);
 
       // profiling
-      auto frame_time = now() - lastUpdateTime; // nanoseconds
+      auto frame_time = now() - lastUpdateTime;  // nanoseconds
       double fps = SEC_NANO / frame_time.count();
       std::cout << "fps: " << fps << std::endl;
       lastUpdateTime = now();
