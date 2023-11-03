@@ -75,17 +75,12 @@ int main(int argc, char **argv) {
       }
     }
 
+    // TODO: research on actual simulation implementation,
+    // we should be able to decouple simulation timestep and other things
     // update
     auto sinceLastUpdate = (now() - lastUpdateTime).count();
-    if (sinceLastUpdate > SEC_NANO / COMPUT_DT_LIMIT) {
+    if (sinceLastUpdate > SEC_NANO * COMPUT_SIMULATION_DEFAULT_TIMESTEP) {
       auto engineObjects = engine.getObjects();
-#ifdef COMPUT_DEBUG
-      for (int i = 0; i < engineObjects.size(); i++) {
-        std::cout << "PRINTING OBJECT " << i << std::endl;
-        engineObjects[i].print();
-      }
-#endif
-
       auto dt = (now() - lastUpdateTime).count() / SEC_NANO;
       std::cout << "dt: " << dt << std::endl;
       engine.applyGravity();
@@ -97,7 +92,7 @@ int main(int argc, char **argv) {
       // profiling
       auto frame_time = now() - lastUpdateTime;  // nanoseconds
       double fps = SEC_NANO / frame_time.count();
-      std::cout << "fps: " << fps << std::endl;
+      std::cout << "simulation fps: " << fps << std::endl;
       lastUpdateTime = now();
     }
   }

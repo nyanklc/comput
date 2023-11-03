@@ -41,16 +41,7 @@ void Object::update(float dt) {
 
 void Object::applyForce(Force &f, float dt) {
   auto a = f / _mass;
-#ifdef COMPUT_DEBUG
-  std::cout << "APPLYING FORCE f: " << f.vec << std::endl;
-  std::cout << "mass: " << _mass.value << std::endl;
-  std::cout << "a: " << a << std::endl;
-  std::cout << "vel before: " << _vel.vec << std::endl;
-#endif
   _vel = _vel + a * dt;
-#ifdef COMPUT_DEBUG
-  std::cout << "vel after: " << _vel.vec << std::endl;
-#endif
 }
 
 Velocity &Object::getVelocity() { return _vel; }
