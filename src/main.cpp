@@ -57,8 +57,13 @@ int main(int argc, char **argv) {
   objColor.g = 0;
   objColor.b = 255;
   objColor.a = 255;
-  Object obj(0, 0, 30, 30, objColor, Velocity::zero(), 1);
-  Object obj2(100, 100, 20, 20, objColor, Velocity::zero(), 10);
+  SDL_Color objColor2;
+  objColor2.r = 0;
+  objColor2.g = 244;
+  objColor2.b = 0;
+  objColor2.a = 255;
+  Object obj(0, 0, 30, 30, objColor, Velocity{Eigen::Vector2f(50, 0)}, 1);
+  Object obj2(100, 100, 20, 20, objColor2, Velocity{Eigen::Vector2f(20, -30)}, 10);
   engine.createObject(obj);
   engine.createObject(obj2);
 
@@ -82,7 +87,6 @@ int main(int argc, char **argv) {
     if (sinceLastUpdate > SEC_NANO * COMPUT_SIMULATION_DEFAULT_TIMESTEP) {
       auto engineObjects = engine.getObjects();
       auto dt = (now() - lastUpdateTime).count() / SEC_NANO;
-      std::cout << "dt: " << dt << std::endl;
       engine.applyGravity();
       engine.update(dt);
 
