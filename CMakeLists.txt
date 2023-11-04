@@ -48,11 +48,13 @@ target_link_libraries(comput_main
   comput_object
   comput_window_handler
   comput_engine
+  comput_bbox
   )
 
 add_library(comput_object src/object.cpp)
 add_library(comput_window_handler src/window_handler.cpp)
 add_library(comput_engine src/engine.cpp)
+add_library(comput_bbox src/bbox.cpp)
 
 # tests
 if (DEFINED ENV{COMPUT_TEST})

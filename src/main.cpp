@@ -1,8 +1,10 @@
 #include <SDL.h>
 
 #include <chrono>
+#include <ctime>
 #include <iostream>
 #include <memory>
+#include <random>
 
 #include "engine.h"
 #include "globals.h"
@@ -15,6 +17,10 @@ using namespace comput;
 
 inline std::chrono::high_resolution_clock::time_point now() {
   return std::chrono::high_resolution_clock::now();
+}
+
+inline bool hasBeenSeconds(double seconds, std::chrono::high_resolution_clock::time_point since) {
+  return (now() - since).count() >= SEC_NANO * seconds;
 }
 
 // TODO: make all units in nanoseconds as default
@@ -71,6 +77,8 @@ int main(int argc, char **argv) {
   SDL_Event e;
   bool quit = false;
   auto lastUpdateTime = now();
+  auto noyanUpdateTime = now();
+  std::srand(std::time(nullptr));
   while (!quit) {
     // TODO: handling window resize is blocking currently, no other operations
     // are completed (engine update etc.) events
@@ -80,13 +88,24 @@ int main(int argc, char **argv) {
       }
     }
 
+    //test, scale objects randomly every 0.5 secs
+    //if rects becomes too small (width=1 or height=1)
+    //it won't grow back for now. (random->[0,2])
+    if (hasBeenSeconds(0.5, noyanUpdateTime)) {
+      auto &objects = engine.getObjects();
+      for (auto &obj : objects) {
+        auto randoo = 2 * static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        obj.scale(randoo);
+      }
+      noyanUpdateTime = now();
+    }
+
     // TODO: research on actual simulation implementation,
     // we should be able to decouple simulation timestep and other things
     // update
-    auto sinceLastUpdate = (now() - lastUpdateTime).count();
-    if (sinceLastUpdate > SEC_NANO * COMPUT_SIMULATION_DEFAULT_TIMESTEP) {
-      auto engineObjects = engine.getObjects();
-      auto dt = (now() - lastUpdateTime).count() / SEC_NANO;
+    if (hasBeenSeconds(1.0 / COMPUT_APPLICATION_FPS, lastUpdateTime)) {
+      auto &engineObjects = engine.getObjects();
+      auto dt = COMPUT_SIMULATION_TIMESTEP;
       engine.applyGravity();
       engine.update(dt);
 

@@ -10,6 +10,7 @@ Object::Object(int x, int y, int w, int h, const SDL_Color &col,
   _rect.y = y;
   _rect.w = w;
   _rect.h = h;
+  _carryBbox(_rect);
   _vel = vel;
   _mass = mass;
   _color.r = col.r;
@@ -22,6 +23,7 @@ Object::Object(const Object &other) {
   _x = other._x;
   _y = other._y;
   _rect = other._rect;
+  _bbox = other._bbox;
   _vel = other._vel;
   _mass = other._mass;
   _color.r = other._color.r;
@@ -37,6 +39,7 @@ void Object::update(float dt) {
   _y += _vel.y() * dt;
   _rect.x = (int)_x;
   _rect.y = (int)_y;
+  _carryBbox(_rect);
 }
 
 void Object::applyForce(Force &f, float dt) {
@@ -44,11 +47,20 @@ void Object::applyForce(Force &f, float dt) {
   _vel = _vel + a * dt;
 }
 
+void Object::scale(float multiplier) {
+  if (multiplier <= 0)
+    return;
+  _bbox.scale(multiplier);
+  _scaleRect(multiplier);
+}
+
 Velocity &Object::getVelocity() { return _vel; }
 
 Mass &Object::getMass() { return _mass; }
 
 SDL_Rect *Object::getRect() { return &_rect; }
+
+BBox &Object::getBbox() { return _bbox; }
 
 void Object::setVelocity(const Velocity &vel) { _vel = vel; }
 
@@ -59,5 +71,21 @@ void Object::setRect(const SDL_Rect &rect) { _rect = rect; }
 void Object::setColor(const SDL_Color &col) { _color = col; }
 
 SDL_Color &Object::getColor() { return _color; }
+
+void Object::_carryBbox(SDL_Rect &rect) {
+  _bbox = BBox(Point((float)rect.x, (float)rect.y+rect.h), Point((float)rect.x+rect.w, (float)rect.y));
+}
+
+void Object::_scaleRect(float multiplier) {
+  auto w = _rect.w;
+  auto h = _rect.h;
+  _rect.x -= w / multiplier;
+  _rect.y -= h / multiplier;
+  _rect.w = multiplier * w;
+  _rect.h = multiplier * h;
+  //we won't allow the rect to disappear (int 0)
+  if (_rect.w == 0) _rect.w = 1;
+  if (_rect.h == 0) _rect.h = 1;
+}
 
 }  // namespace comput

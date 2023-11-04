@@ -1,6 +1,7 @@
 #ifndef COMPUT_OBJECT_H
 #define COMPUT_OBJECT_H
 
+#include "bbox.h"
 #include "globals.h"
 #include "util/force.h"
 #include "util/mass.h"
@@ -25,16 +26,20 @@ class Object {
 
   virtual ~Object() {}
 
-  void update(float dt = COMPUT_SIMULATION_DEFAULT_TIMESTEP);
+  void update(float dt = COMPUT_SIMULATION_TIMESTEP);
 
   virtual void applyForce(Force &f,
-                          float dt = COMPUT_SIMULATION_DEFAULT_TIMESTEP);
+                          float dt = COMPUT_SIMULATION_TIMESTEP);
+
+  void scale(float multiplier);
 
   Velocity &getVelocity();
 
   Mass &getMass();
 
   SDL_Rect *getRect();
+
+  BBox &getBbox();
 
   void setVelocity(const Velocity &vel);
 
@@ -58,13 +63,18 @@ class Object {
   }
 #endif
 
- private:
+ protected:
   double _x;
   double _y;
   SDL_Rect _rect;
   Velocity _vel;
   Mass _mass;
   SDL_Color _color;
+  BBox _bbox;
+
+  void _carryBbox(SDL_Rect &rect);
+  //bbox can scale itself, but we need to scale rect as well
+  void _scaleRect(float multiplier);
 };
 
 }  // namespace comput

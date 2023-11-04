@@ -7,13 +7,19 @@ struct Position {
  public:
   float x = 0;
   float y = 0;
+
+  Position(float xx = 0, float yy = 0) {
+    x = xx;
+    y = yy;
+  }
+
+  Position(const Position &other) {
+    x = other.x;
+    y = other.y;
+  }
 };
 
-struct IPosition {
- public:
-  int x = 0;
-  int y = 0;
-};
+typedef Position Point;
 
 }  // namespace comput
 

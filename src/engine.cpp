@@ -2,7 +2,10 @@
 
 namespace comput {
 
+//#include <cassert>
 void ComputEngine::update(double dt) {
+  // TODO: check for collisions
+  //assert(false);
   for (auto &obj : _objects) {
     obj.update(dt);
   }
