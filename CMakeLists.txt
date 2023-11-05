@@ -10,24 +10,10 @@ set(CMAKE_CXX_COMPILER g++)
 set(CMAKE_CXX_FLAGS "-std=c++17 -Wall")
 
 # libs
-# windows can't find sdl automatically
-# use environment variables holding the path to sdl installation for now
-# TODO: still can't get it to compile on windows without manually copying header files from sdl
-if (WIN32 OR MSVC)
-  set(SDL2_INCLUDE_DIRS "include/SDL/") # TODO: remove this
-  # set(SDL2_INCLUDE_DIRS ENV{COMPUT_SDL2_INCLUDE_DIRS}) # TODO: uncomment this
-  set(SDL2_LIBRARIES ENV{COMPUT_SDL2_LIBRARIES})
-  message("comput - Building for Windows.")
-  # message("SDL2 INCLUDE DIRECTORIES: ${SDL2_INCLUDE_DIRS}")
-  # message("SDL2 LIBRARIES: ${SDL2_LIBRARIES}")
-  # TODO: does eigen3 work?
-else()
-message("comput - Building for *nix.")
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
-endif()
 
 if (NOT DEFINED ENV{COMPUT_DEBUG})
   # release
