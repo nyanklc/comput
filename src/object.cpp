@@ -1,9 +1,12 @@
 #include "object.h"
 
+#include <iostream>
+
 namespace comput {
 
-Object::Object(int x, int y, int w, int h, const SDL_Color &col,
+Object::Object(std::string &name, int x, int y, int w, int h, const SDL_Color &col,
                const Velocity &vel, const Mass &mass) {
+  _name = name;
   _x = x;
   _y = y;
   _rect.x = x;
@@ -20,6 +23,7 @@ Object::Object(int x, int y, int w, int h, const SDL_Color &col,
 }
 
 Object::Object(const Object &other) {
+  _name = other._name;
   _x = other._x;
   _y = other._y;
   _rect = other._rect;
@@ -72,8 +76,24 @@ void Object::setColor(const SDL_Color &col) { _color = col; }
 
 SDL_Color &Object::getColor() { return _color; }
 
+void Object::setName(std::string &n) {
+  _name = n;
+}
+
+std::string Object::getName() {
+  return _name;
+}
+
+bool Object::isCollidingWith(const Object &other) {
+  return _bbox.isCollidingWith(other._bbox);
+}
+
 void Object::_carryBbox(SDL_Rect &rect) {
-  _bbox = BBox(Point((float)rect.x, (float)rect.y+rect.h), Point((float)rect.x+rect.w, (float)rect.y));
+  float lLx = (float)rect.x;
+  float lLy = (float)rect.y+(float)rect.h;
+  float uRx = (float)rect.x+(float)rect.w;
+  float uRy = (float)rect.y;
+  _bbox = BBox(Point(lLx, lLy), Point(uRx, uRy));
 }
 
 void Object::_scaleRect(float multiplier) {

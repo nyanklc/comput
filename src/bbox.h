@@ -22,6 +22,10 @@ public:
 
   bool isCollidingWith(const BBox &other);
 
+#ifdef COMPUT_DEBUG
+  void print() const;
+#endif
+
 protected:
   Point _lL;
   Point _uR;

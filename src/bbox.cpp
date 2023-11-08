@@ -8,16 +8,17 @@ namespace comput
 {
 
 BBox::BBox( Point lL, Point uR ) {
-    if (uR.y >= lL.y && uR.x >= lL.x) {
-      _lL = lL;
-      _uR = uR;
-      return;
-    }
+  // SDL coordinate system has inverted y, hence uR.y <= lL.y
+  if (uR.y <= lL.y && uR.x >= lL.x) {
+    _lL = lL;
+    _uR = uR;
+    return;
+  }
 #ifdef COMPUT_DEBUG
     std::cerr << "Invalid BBox points provided.\n";
 #endif
-    _lL = Point{0, 0};
-    _uR = Point{0, 0};
+  _lL = Point{0, 0};
+  _uR = Point{0, 0};
 }
 
 BBox::BBox(const BBox &other) {
@@ -48,10 +49,19 @@ void BBox::scale(float multiplier) {
 
 //ride on, little wing.
 
-#include <cassert>
 bool BBox::isCollidingWith(const BBox &other) {
-  // TODO:
-  assert(false);
+  if (_lL.x < other._uR.x &&
+      _uR.x > other._lL.x &&
+      _lL.y > other._uR.y &&
+      _uR.y < other._lL.y)
+    return true;
+  return false;
 }
+
+#ifdef COMPUT_DEBUG
+void BBox::print() const {
+  std::cout << "(" << _lL.x << ", " << _lL.y << ")-(" << _uR.x << ", " << _uR.y << ")" << std::endl;
+}
+#endif
 
 } // namespace comput

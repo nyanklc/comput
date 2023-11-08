@@ -8,6 +8,8 @@
 #include "util/position.h"
 #include "util/velocity.h"
 
+#include <string>
+
 #ifdef COMPUT_DEBUG
 #include <iostream>
 #endif
@@ -16,9 +18,10 @@ namespace comput {
 
 // this is simply a wrapper on SDL_Rect
 // objects are unique for now, there is no instantiation
+// their names are also unique (there is no check for validity currently)
 class Object {
  public:
-  Object(int x = 0, int y = 0, int w = 0, int h = 0,
+  Object(std::string &name, int x = 0, int y = 0, int w = 0, int h = 0,
          const SDL_Color &col = {0, 0, 0, 255},
          const Velocity &vel = Velocity::zero(), const Mass &mass = 0);
 
@@ -51,6 +54,13 @@ class Object {
 
   SDL_Color &getColor();
 
+  void setName(std::string &n);
+
+  std::string getName();
+
+  // just calls this on bbox currently
+  bool isCollidingWith(const Object &other);
+
 #ifdef COMPUT_DEBUG
   void print() {
     COMPUT_DEBUG_SEPARATOR;
@@ -64,6 +74,7 @@ class Object {
 #endif
 
  protected:
+  std::string _name;
   double _x;
   double _y;
   SDL_Rect _rect;

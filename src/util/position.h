@@ -5,8 +5,8 @@ namespace comput {
 
 struct Position {
  public:
-  float x = 0;
-  float y = 0;
+  float x;
+  float y;
 
   Position(float xx = 0, float yy = 0) {
     x = xx;

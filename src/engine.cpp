@@ -2,12 +2,27 @@
 
 namespace comput {
 
-//#include <cassert>
 void ComputEngine::update(double dt) {
-  // TODO: check for collisions
-  //assert(false);
   for (auto &obj : _objects) {
+    // update
     obj.update(dt);
+
+    // collisions
+    checkCollisionsOf(obj);
+  }
+}
+
+// TODO: we're basically checking the collision of two objects TWICE,
+// maybe add a 'adjacency' matrix that holds a flag indicating
+// whether collision check (and the action to resolve it) has been
+// processed with a certain object
+void ComputEngine::checkCollisionsOf(Object &obj) {
+  for (auto &obj2 : _objects) {
+    if (obj.getName() == obj2.getName()) continue;
+
+    if (obj.isCollidingWith(obj2)) {
+      // TODO: exert force in opposite direction
+    }
   }
 }
 

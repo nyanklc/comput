@@ -68,8 +68,10 @@ int main(int argc, char **argv) {
   objColor2.g = 244;
   objColor2.b = 0;
   objColor2.a = 255;
-  Object obj(0, 0, 30, 30, objColor, Velocity{Eigen::Vector2f(50, 0)}, 1);
-  Object obj2(100, 100, 20, 20, objColor2, Velocity{Eigen::Vector2f(20, -30)}, 10);
+  std::string obj1Name = "obj1";
+  std::string obj2Name = "obj2";
+  Object obj(obj1Name, 0, 0, 30, 30, objColor, Velocity{Eigen::Vector2f(50, 0)}, 1);
+  Object obj2(obj2Name, 100, 100, 20, 20, objColor2, Velocity{Eigen::Vector2f(20, -30)}, 10);
   engine.createObject(obj);
   engine.createObject(obj2);
 
