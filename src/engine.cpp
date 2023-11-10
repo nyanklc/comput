@@ -8,7 +8,7 @@ void ComputEngine::update(double dt) {
     obj.update(dt);
 
     // collisions
-    checkCollisionsOf(obj);
+    checkCollisionsOf(obj, dt);
   }
 }
 
@@ -16,12 +16,14 @@ void ComputEngine::update(double dt) {
 // maybe add a 'adjacency' matrix that holds a flag indicating
 // whether collision check (and the action to resolve it) has been
 // processed with a certain object
-void ComputEngine::checkCollisionsOf(Object &obj) {
+void ComputEngine::checkCollisionsOf(Object &obj, double dt) {
   for (auto &obj2 : _objects) {
     if (obj.getName() == obj2.getName()) continue;
 
     if (obj.isCollidingWith(obj2)) {
       // TODO: exert force in opposite direction
+      obj.applyCollisionResponseTo(obj2, dt);
+      obj2.applyCollisionResponseTo(obj, dt);
     }
   }
 }

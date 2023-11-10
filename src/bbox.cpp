@@ -49,7 +49,7 @@ void BBox::scale(float multiplier) {
 
 //ride on, little wing.
 
-bool BBox::isCollidingWith(const BBox &other) {
+bool BBox::isCollidingWith(const BBox &other) const {
   if (_lL.x < other._uR.x &&
       _uR.x > other._lL.x &&
       _lL.y > other._uR.y &&

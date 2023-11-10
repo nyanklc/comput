@@ -51,6 +51,14 @@ void Object::applyForce(Force &f, float dt) {
   _vel = _vel + a * dt;
 }
 
+// TODO: better ideas and implementation
+void Object::applyCollisionResponseTo(const Object &other, double dt) {
+  Point centerOther = other.getBbox().getCenter();
+  Point centerThis = getBbox().getCenter();
+  auto distance = centerThis.distanceTo(centerOther);
+  // TODO:
+}
+
 void Object::scale(float multiplier) {
   if (multiplier <= 0)
     return;
@@ -58,13 +66,13 @@ void Object::scale(float multiplier) {
   _scaleRect(multiplier);
 }
 
-Velocity &Object::getVelocity() { return _vel; }
+Velocity &Object::getVelocity() const { return _vel; }
 
-Mass &Object::getMass() { return _mass; }
+Mass &Object::getMass() const { return _mass; }
 
-SDL_Rect *Object::getRect() { return &_rect; }
+SDL_Rect *Object::getRect() const { return &_rect; }
 
-BBox &Object::getBbox() { return _bbox; }
+BBox &Object::getBbox() const { return _bbox; }
 
 void Object::setVelocity(const Velocity &vel) { _vel = vel; }
 
@@ -74,17 +82,17 @@ void Object::setRect(const SDL_Rect &rect) { _rect = rect; }
 
 void Object::setColor(const SDL_Color &col) { _color = col; }
 
-SDL_Color &Object::getColor() { return _color; }
+SDL_Color &Object::getColor() const { return _color; }
 
 void Object::setName(std::string &n) {
   _name = n;
 }
 
-std::string Object::getName() {
+std::string Object::getName() const {
   return _name;
 }
 
-bool Object::isCollidingWith(const Object &other) {
+bool Object::isCollidingWith(const Object &other) const {
   return _bbox.isCollidingWith(other._bbox);
 }
 

@@ -16,7 +16,7 @@ class ComputEngine {
 
   void update(double dt);
 
-  void checkCollisionsOf(Object &obj);
+  void checkCollisionsOf(Object &obj, double dt);
 
   void applyGravity();
 

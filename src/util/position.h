@@ -1,6 +1,8 @@
 #ifndef COMPUT_UTIL_POSITION_H
 #define COMPUT_UTIL_POSITION_H
 
+#include <cmath>
+
 namespace comput {
 
 struct Position {
@@ -16,6 +18,11 @@ struct Position {
   Position(const Position &other) {
     x = other.x;
     y = other.y;
+  }
+
+  float distanceTo(const Position &other) const {
+    using namespace std;
+    return sqrt(pow(x-other.x, 2) + pow(y-other.y, 2));
   }
 };
 

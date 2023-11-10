@@ -34,15 +34,17 @@ class Object {
   virtual void applyForce(Force &f,
                           float dt = COMPUT_SIMULATION_TIMESTEP);
 
+  void applyCollisionResponseTo(const Object &other, double dt);
+
   void scale(float multiplier);
 
-  Velocity &getVelocity();
+  Velocity &getVelocity() const;
 
-  Mass &getMass();
+  Mass &getMass() const;
 
-  SDL_Rect *getRect();
+  SDL_Rect *getRect() const;
 
-  BBox &getBbox();
+  BBox &getBbox() const;
 
   void setVelocity(const Velocity &vel);
 
@@ -52,14 +54,14 @@ class Object {
 
   void setColor(const SDL_Color &col);
 
-  SDL_Color &getColor();
+  SDL_Color &getColor() const;
 
   void setName(std::string &n);
 
-  std::string getName();
+  std::string getName() const;
 
   // just calls this on bbox currently
-  bool isCollidingWith(const Object &other);
+  bool isCollidingWith(const Object &other) const;
 
 #ifdef COMPUT_DEBUG
   void print() {

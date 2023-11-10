@@ -20,7 +20,7 @@ public:
   //scales around center point
   void scale(float multiplier);
 
-  bool isCollidingWith(const BBox &other);
+  bool isCollidingWith(const BBox &other) const;
 
 #ifdef COMPUT_DEBUG
   void print() const;
