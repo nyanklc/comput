@@ -6,32 +6,32 @@
 namespace comput
 {
 
-class BBox {
-public:
-  BBox(Point lL = Point{0, 0}, Point uR = Point{0, 0});
+    class BBox
+    {
+    public:
+        BBox(Point lL = Point{0, 0}, Point uR = Point{0, 0});
 
-  BBox(const BBox &other);
+        BBox(const BBox &other);
 
-  float getArea();
+        float getArea();
 
-  //float division, adds error
-  Point getCenter();
+        // float division, adds error
+        Point getCenter();
 
-  //scales around center point
-  void scale(float multiplier);
+        // scales around center point
+        void scale(float multiplier);
 
-  bool isCollidingWith(const BBox &other) const;
+        bool isCollidingWith(const BBox &other) const;
 
 #ifdef COMPUT_DEBUG
-  void print() const;
+        void print() const;
 #endif
 
-protected:
-  Point _lL;
-  Point _uR;
-};
+    protected:
+        Point _lL;
+        Point _uR;
+    };
 
 } // namespace comput
-
 
 #endif

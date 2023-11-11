@@ -5,29 +5,31 @@
 
 #include "object.h"
 
-namespace comput {
+namespace comput
+{
 
-// this is like the manager of objects, objects themselves resolve their problems,
-// like force calculation in case of collision,
-// however engine is the one who notifies them
-class ComputEngine {
- public:
-  ComputEngine() {}
+    // this is like the manager of objects, objects themselves resolve their problems,
+    // like force calculation in case of collision,
+    // however engine is the one who notifies them
+    class ComputEngine
+    {
+    public:
+        ComputEngine() {}
 
-  void update(double dt);
+        void update(double dt);
 
-  void checkCollisionsOf(Object &obj, double dt);
+        void checkCollisionsOf(Object &obj, double dt);
 
-  void applyGravity();
+        void applyGravity();
 
-  void createObject(Object &obj);
+        void createObject(Object &obj);
 
-  std::vector<Object> &getObjects();
+        std::vector<Object> &getObjects();
 
- private:
-  std::vector<Object> _objects;
-};
+    private:
+        std::vector<Object> _objects;
+    };
 
-}  // namespace comput
+} // namespace comput
 
 #endif

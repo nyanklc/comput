@@ -3,10 +3,11 @@
 
 #include <SDL.h>
 
-namespace comput {
+namespace comput
+{
 
 #define COMPUT_SDL_INIT_LIST \
-  SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_EVENTS
+    SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_EVENTS
 
 #define COMPUT_SIMULATION_TIMESTEP 0.01
 #define COMPUT_APPLICATION_FPS 144
@@ -22,9 +23,9 @@ namespace comput {
 
 #ifdef COMPUT_DEBUG
 #define COMPUT_DEBUG_SEPARATOR \
-  std::cout << "#########################" << std::endl
+    std::cout << "#########################" << std::endl
 #endif
 
-}  // namespace comput
+} // namespace comput
 
 #endif

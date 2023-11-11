@@ -4,22 +4,22 @@
 #define COMPUT_COLLISION_MATRIX_H
 #include "object.h"
 
-namespace comput {
+namespace comput
+{
 
-  class CollisionMatrix
-  {
-  public:
-    CollisionMatrix(std::vector<Object> &objects);
-    virtual ~CollisionMatrix();
+    class CollisionMatrix
+    {
+    public:
+        CollisionMatrix(std::vector<Object> &objects);
+        virtual ~CollisionMatrix();
 
-    void addCollision();
+        void addCollision();
 
-    void reset();
+        void reset();
 
     protected:
-    bool **_matrix;
-
-  };
+        bool **_matrix;
+    };
 
 }
 
