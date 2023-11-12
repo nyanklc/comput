@@ -61,8 +61,9 @@ namespace comput
     {
         Point centerOther = other.getBBox().getCenter();
         Point centerThis = getBBox().getCenter();
-        auto distance = centerThis.distanceTo(centerOther);
+        float distance = centerThis.distanceTo(centerOther);
         // TODO:
+        std::cout << "Collision response " << distance << std::endl;
     }
 
     void Object::scale(float multiplier)

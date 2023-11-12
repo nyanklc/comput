@@ -4,6 +4,9 @@ project(comput)
 # export compile commands for clangd database
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
+# c++ version
+set(CXX_STANDARD C++17)
+
 # compiler
 # set(CMAKE_CXX_COMPILER clang)
 set(CMAKE_CXX_COMPILER g++)
