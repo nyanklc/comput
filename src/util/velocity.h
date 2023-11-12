@@ -23,6 +23,14 @@ namespace comput
 
         inline void operator=(const Velocity &rhs) { vec = rhs.vec; }
 
+        float magnitude()
+        {
+          // TODO: using squared values for things like these
+          // is the preferred approach for performant computation.
+          // We won't concern ourselves with performance yet though.
+          return vec.norm();
+        }
+
         static Velocity zero()
         {
             Velocity vel;
