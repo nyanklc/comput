@@ -15,7 +15,7 @@ Set `COMPUT_DEBUG` environment variable to build in debug mode.
 - Run `visual-studio.bat` to generate Visual Studio 17 2022 project files (under directory `build`).
 - Compile and run within VS.
 
-## MacOS
+## MacOS (can also be built with the same steps in Linux)
 - Run `xcode.sh` to generate Xcode project files (under directory `build`).
 - Compile and run within Xcode.
 
