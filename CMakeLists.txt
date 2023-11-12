@@ -54,10 +54,14 @@ target_link_libraries(comput_main
   )
 
 # internal libs
+add_library(comput_engine ${PROJECT_SOURCE_DIR}/src/engine.cpp)
+target_link_libraries(comput_engine
+  comput_collision_system_brute_force
+  )
 add_library(comput_object ${PROJECT_SOURCE_DIR}/src/object.cpp)
 add_library(comput_window_handler ${PROJECT_SOURCE_DIR}/src/window_handler.cpp)
-add_library(comput_engine ${PROJECT_SOURCE_DIR}/src/engine.cpp)
 add_library(comput_bbox ${PROJECT_SOURCE_DIR}/src/bbox.cpp)
+add_library(comput_collision_system_brute_force ${PROJECT_SOURCE_DIR}/src/util/collision_system/brute_force.cpp)
 
 # tests
 if (DEFINED ENV{COMPUT_TEST})

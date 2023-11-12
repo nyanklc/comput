@@ -3,6 +3,16 @@
 namespace comput
 {
 
+    ComputEngine::ComputEngine()
+    {
+        _collisionSystem = 0;
+    }
+
+    void ComputEngine::setCollisionSystem(CollisionSystemBase *cs)
+    {
+        _collisionSystem = std::unique_ptr<CollisionSystemBase>(cs);
+    }
+
     void ComputEngine::update(double dt)
     {
         for (auto &obj : _objects)
@@ -11,28 +21,9 @@ namespace comput
             obj.update(dt);
 
             // collisions
-            checkCollisionsOf(obj, dt);
-        }
-    }
-
-    // TODO: we're basically checking the collision of two objects TWICE,
-    // maybe add a 'adjacency' matrix that holds a flag indicating
-    // whether collision check (and the action to resolve it) has been
-    // processed with a certain object
-    void ComputEngine::checkCollisionsOf(Object &obj, double dt)
-    {
-        for (auto &obj2 : _objects)
-        {
-            if (obj.getName() == obj2.getName())
-                continue;
-
-            if (obj.isCollidingWith(obj2))
+            if (_collisionSystem)
             {
-                // TODO: collision check should only be conducted once
-                // in order to not apply the responses twice
-                // TODO: exert force in opposite direction
-                obj.applyCollisionResponseTo(obj2, dt);
-                obj2.applyCollisionResponseTo(obj, dt);
+                _collisionSystem->checkCollisionsOf(obj, _objects, dt);
             }
         }
     }

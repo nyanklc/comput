@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "object.h"
+#include "util/collision_system/base.h"
 
 namespace comput
 {
@@ -14,11 +15,11 @@ namespace comput
     class ComputEngine
     {
     public:
-        ComputEngine() {}
+        ComputEngine();
+
+        void setCollisionSystem(CollisionSystemBase *cs);
 
         void update(double dt);
-
-        void checkCollisionsOf(Object &obj, double dt);
 
         void applyGravity();
 
@@ -28,6 +29,7 @@ namespace comput
 
     private:
         std::vector<Object> _objects;
+        std::unique_ptr<CollisionSystemBase> _collisionSystem;
     };
 
 } // namespace comput

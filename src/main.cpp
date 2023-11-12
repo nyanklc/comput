@@ -8,6 +8,7 @@
 
 #include "engine.h"
 #include "globals.h"
+#include "util/collision_system/brute_force.h"
 #include "util/system.h"
 #include "window_handler.h"
 
@@ -40,6 +41,7 @@ int main(int argc, char **argv)
 {
     // obj
     ComputEngine engine;
+    engine.setCollisionSystem(new CollisionSystemBruteForce());
     auto system = ComputSystem::create();
     WindowHandler windowHandler;
 
