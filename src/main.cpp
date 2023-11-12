@@ -25,6 +25,16 @@ inline bool hasBeenSeconds(double seconds, std::chrono::high_resolution_clock::t
     return (now() - since).count() >= SEC_NANO * seconds;
 }
 
+#ifdef _WIN32
+#include <Windows.h>
+int APIENTRY WinMain(HINSTANCE hInstance,
+    HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine, int nCmdShow)
+{
+    return main(__argc, __argv);
+}
+#endif
+
 // TODO: make all units in nanoseconds as default
 int main(int argc, char **argv)
 {

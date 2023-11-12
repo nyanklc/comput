@@ -77,7 +77,7 @@ namespace comput
             if (resizable)
                 SDL_SetWindowResizable(window, SDL_TRUE);
             SDL_Renderer *r = 0;
-            _windows.push_back(std::pair(window, r));
+            _windows.push_back(std::pair<SDL_Window *, SDL_Renderer *>(window, r));
             return true;
         }
 

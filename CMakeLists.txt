@@ -12,10 +12,18 @@ set(CXX_STANDARD C++17)
 set(CMAKE_CXX_COMPILER g++)
 set(CMAKE_CXX_FLAGS "-std=c++17 -Wall")
 
-# libs
-find_package(SDL2 REQUIRED)
+# external libs
+if (WIN32)
+  SET(SDL2_LIBRARIES "${PROJECT_SOURCE_DIR}\\libs\\SDL2\\build\\RelWithDebInfo\\SDL2.lib")
+  SET(SDL2_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}\\libs\\SDL2\\include")
+  SET(EIGEN3_INCLUDE_DIR "${PROJECT_SOURCE_DIR}\\libs\\eigen")
+else()
+  find_package(SDL2 REQUIRED)
+  find_package(Eigen3 REQUIRED)
+endif()
+
+# include directories
 include_directories(${SDL2_INCLUDE_DIRS})
-find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 if (NOT DEFINED ENV{COMPUT_DEBUG})
@@ -32,7 +40,12 @@ endif()
 # links to all targets defined after this call
 link_libraries(${SDL2_LIBRARIES})
 
-add_executable(comput_main src/main.cpp)
+# main
+if (WIN32)
+  add_executable(comput_main WIN32 ${PROJECT_SOURCE_DIR}/src/main.cpp)
+else()
+  add_executable(comput_main ${PROJECT_SOURCE_DIR}/src/main.cpp)
+endif()
 target_link_libraries(comput_main
   comput_object
   comput_window_handler
@@ -40,15 +53,18 @@ target_link_libraries(comput_main
   comput_bbox
   )
 
-add_library(comput_object src/object.cpp)
-add_library(comput_window_handler src/window_handler.cpp)
-add_library(comput_engine src/engine.cpp)
-add_library(comput_bbox src/bbox.cpp)
+# internal libs
+add_library(comput_object ${PROJECT_SOURCE_DIR}/src/object.cpp)
+add_library(comput_window_handler ${PROJECT_SOURCE_DIR}/src/window_handler.cpp)
+add_library(comput_engine ${PROJECT_SOURCE_DIR}/src/engine.cpp)
+add_library(comput_bbox ${PROJECT_SOURCE_DIR}/src/bbox.cpp)
 
 # tests
 if (DEFINED ENV{COMPUT_TEST})
   message("comput - Building tests.")
-  add_executable(verify_sdl test/verify_sdl.cpp)
-  # add_dependencies(verify_sdl ${SDL2_LIBRARIES}) # TODO: somehow this gives error, investigate
-  target_link_libraries(verify_sdl ${SDL2_LIBRARIES})
+  if (WIN32)
+    add_executable(verify_sdl WIN32 test/verify_sdl.cpp)
+  else()
+    add_executable(verify_sdl test/verify_sdl.cpp)
+  endif()
 endif()
