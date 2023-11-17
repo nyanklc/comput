@@ -10,7 +10,7 @@ Set `COMPUT_DEBUG` environment variable to build in debug mode.
 - Run `compile.sh` for compilation (make).
 - Run `run.sh` to run the main program.
 
-## Windows
+## Windows (can also simply use visual studio, it supports cmake)
 - Create a directory `libs`. Put `SDL2` and `eigen` folders inside it.
 - Run `visual-studio.bat` to generate Visual Studio 17 2022 project files (under directory `build`).
 - Compile and run within VS.
