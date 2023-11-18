@@ -9,7 +9,7 @@
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
-      "cmakeCommandArgs": "--trace-expand",
+      "cmakeCommandArgs": "--trace-expand -Wall",
       "variables": [
         {
           "name": "Eigen3_DIR",
@@ -29,10 +29,22 @@
       "configurationType": "RelWithDebInfo",
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "",
+      "cmakeCommandArgs": "-Wall",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ]
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "variables": [
+        {
+          "name": "Eigen3_DIR",
+          "value": "C:\\\\eigen",
+          "type": "PATH"
+        },
+        {
+          "name": "SDL2_DIR",
+          "value": "C:\\\\Users\\\\nekilic\\\\Desktop\\\\sdlnoyan\\\\build\\\\RelWithDebInfo",
+          "type": "PATH"
+        }
+      ]
     }
   ]
 }

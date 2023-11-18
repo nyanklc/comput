@@ -2,10 +2,9 @@
 
 namespace comput
 {
-// TODO: we're basically checking the collision of two objects TWICE,
-// maybe add a 'adjacency' matrix that holds a flag indicating
-// whether collision check (and the action to resolve it) has been
-// processed with a certain object
+// we're applying Newton's Third Law by checking collisions obj1->obj2 and obj2->obj1.
+// objects apply collision response based on the forces given by the other object (and environment) only,
+// and they do not exert force on the other.
 void CollisionSystemBruteForce::checkCollisionsOf(Object &obj,
         std::vector<Object> &objects,
         double dt)
@@ -17,11 +16,7 @@ void CollisionSystemBruteForce::checkCollisionsOf(Object &obj,
 
         if (obj.isCollidingWith(obj2))
         {
-            // TODO: use collision matrix for this collision system
-            // TODO: collision check should only be conducted once
-            // in order to not apply the responses twice
             obj.applyCollisionResponseTo(obj2, dt);
-            obj2.applyCollisionResponseTo(obj, dt);
         }
     }
 

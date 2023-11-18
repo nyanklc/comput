@@ -80,8 +80,8 @@ int main(int argc, char **argv)
     SDL_Color objColor2 = {0, 244, 0, 255};
     Object obj("obj1", 0, 0, 30, 30, objColor, Velocity{ Eigen::Vector2f(50, 0) }, 1);
     Object obj2("obj2", 100, 100, 20, 20, objColor2, Velocity{Eigen::Vector2f(20, -30)}, 10);
-    obj.getPropertiesInteraction().repulsionForceMagnitude = 1;
-    obj2.getPropertiesInteraction().repulsionForceMagnitude = 1;
+    obj.getPropertiesInteraction().repulsionForceMagnitude = 1000;
+    obj2.getPropertiesInteraction().repulsionForceMagnitude = 1000;
     engine.createObject(obj);
     engine.createObject(obj2);
 
@@ -112,9 +112,7 @@ int main(int argc, char **argv)
             engine.applyGravity(dt);
             engine.update(dt);
 
-#ifdef COMPUT_DEBUG
             engine.debugCollisionInteractions(mainRenderer);
-#endif
 
             windowHandler.drawObjects(mainRenderer, engineObjects);
             windowHandler.update(mainRenderer);

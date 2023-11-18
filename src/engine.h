@@ -28,9 +28,7 @@ namespace comput
 
         std::vector<Object> &getObjects();
 
-#ifdef COMPUT_DEBUG
-    void debugCollisionInteractions(SDL_Renderer *renderer);
-#endif
+        void debugCollisionInteractions(SDL_Renderer *renderer);
 
     private:
         std::vector<Object> _objects;

@@ -44,7 +44,6 @@ namespace comput
 
     std::vector<Object> &ComputEngine::getObjects() { return _objects; }
 
-#ifdef COMPUT_DEBUG
     void ComputEngine::debugCollisionInteractions(SDL_Renderer *renderer)
     {
         for (auto &obj : _objects)
@@ -53,14 +52,14 @@ namespace comput
             {
                 if (obj.getName() == obj2.getName())
                     continue;
-
-                auto f = obj.getCollisionResponseTo(obj2);
-                auto pos = obj.getPosition();
-                comput_util::visualizeVector(pos, f.vec, renderer);
+                if (obj.isCollidingWith(obj2))
+                {
+                    auto f = obj.getCollisionResponseTo(obj2);
+                    auto pos = obj.getPosition();
+                    comput_util::visualizeVector(pos, f.vec, renderer);
+                }
             }
         }
     }
-
-#endif
 
 } // namespace comput
