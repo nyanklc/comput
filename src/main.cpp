@@ -89,7 +89,6 @@ int main(int argc, char **argv)
     SDL_Event e;
     bool quit = false;
     auto lastUpdateTime = now();
-    auto noyanUpdateTime = now();
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     while (!quit)
     {
@@ -103,20 +102,6 @@ int main(int argc, char **argv)
             }
         }
 
-        // test, scale objects randomly every 0.5 secs
-        // if rects becomes too small (width=1 or height=1)
-        // it won't grow back for now. (random->[0,2])
-        if (hasBeenSeconds(0.5, noyanUpdateTime))
-        {
-            auto &objects = engine.getObjects();
-            for (auto &obj : objects)
-            {
-                auto randoo = 2 * static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-                obj.scale(randoo);
-            }
-            noyanUpdateTime = now();
-        }
-
         // TODO: research on actual simulation implementation,
         // we should be able to decouple simulation timestep and other things
         // update
@@ -124,8 +109,12 @@ int main(int argc, char **argv)
         {
             auto &engineObjects = engine.getObjects();
             auto dt = COMPUT_SIMULATION_TIMESTEP;
-            engine.applyGravity();
+            engine.applyGravity(dt);
             engine.update(dt);
+
+#ifdef COMPUT_DEBUG
+            engine.debugCollisionInteractions(mainRenderer);
+#endif
 
             windowHandler.drawObjects(mainRenderer, engineObjects);
             windowHandler.update(mainRenderer);

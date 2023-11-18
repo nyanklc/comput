@@ -20,7 +20,6 @@ void CollisionSystemBruteForce::checkCollisionsOf(Object &obj,
             // TODO: use collision matrix for this collision system
             // TODO: collision check should only be conducted once
             // in order to not apply the responses twice
-            // TODO: exert force in opposite direction
             obj.applyCollisionResponseTo(obj2, dt);
             obj2.applyCollisionResponseTo(obj, dt);
         }

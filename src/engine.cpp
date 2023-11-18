@@ -28,8 +28,7 @@ namespace comput
         }
     }
 
-    // TODO:
-    void ComputEngine::applyGravity()
+    void ComputEngine::applyGravity(double dt)
     {
         Force gravity;
         gravity.vec[0] = 0;
@@ -44,5 +43,24 @@ namespace comput
     void ComputEngine::createObject(Object &obj) { _objects.push_back(obj); }
 
     std::vector<Object> &ComputEngine::getObjects() { return _objects; }
+
+#ifdef COMPUT_DEBUG
+    void ComputEngine::debugCollisionInteractions(SDL_Renderer *renderer)
+    {
+        for (auto &obj : _objects)
+        {
+            for (auto &obj2 : _objects)
+            {
+                if (obj.getName() == obj2.getName())
+                    continue;
+
+                auto f = obj.getCollisionResponseTo(obj2);
+                auto pos = obj.getPosition();
+                comput_util::visualizeVector(pos, f.vec, renderer);
+            }
+        }
+    }
+
+#endif
 
 } // namespace comput

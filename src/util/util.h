@@ -15,7 +15,7 @@ namespace comput
 		// returns unit vector from (1) to (2)
 		Eigen::Vector2f getUnitVector(double x1, double y1, double x2, double y2);
 
-		void visualizeVector(Eigen::Vector2f &vec, SDL_Renderer *renderer);
+		void visualizeVector(Pointd &pos, Eigen::Vector2f& vec, SDL_Renderer* renderer);
 	}
 
 	namespace comput_util_objects

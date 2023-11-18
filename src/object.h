@@ -25,7 +25,7 @@ namespace comput
         Object(std::string name, int x = 0, int y = 0, int w = 0, int h = 0,
                const SDL_Color &col = {0, 0, 0, 255},
                const Velocity &vel = Velocity::zero(), const Mass &mass = 0,
-               ObjectPropertiesInteraction &propertiesInteraction = ObjectPropertiesInteraction());
+               ObjectPropertiesInteraction propertiesInteraction = ObjectPropertiesInteraction());
 
         Object(const Object &other);
 
@@ -41,6 +41,8 @@ namespace comput
 
         void scale(float multiplier);
 
+        // can't really return a reference rn since point (position) is not an explicit member
+        Pointd getPosition() const;
         Velocity &getVelocity();
         Velocity getVelocity() const;
         Mass &getMass();
@@ -54,6 +56,7 @@ namespace comput
         std::string &getName();
         std::string getName() const;
         ObjectPropertiesInteraction& getPropertiesInteraction();
+        Force getCollisionResponseTo(const Object &other) const;
 
         void setVelocity(const Velocity &vel);
         void setMass(const Mass &mass);
@@ -63,7 +66,7 @@ namespace comput
         void setName(std::string &n);
         void setPropertiesInteraction(ObjectPropertiesInteraction &propInt);
 
-        Force getInteractionForces(const Object &to) const;
+        virtual Force getInteractionForces(const Object &to) const;
 
         // just calls this on bbox
         bool isCollidingWith(const Object &other) const;

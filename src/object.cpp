@@ -6,7 +6,7 @@
 namespace comput
 {
 
-    Object::Object(std::string name, int x, int y, int w, int h, const SDL_Color& col, const Velocity& vel, const Mass& mass, ObjectPropertiesInteraction& propertiesInteraction)
+    Object::Object(std::string name, int x, int y, int w, int h, const SDL_Color& col, const Velocity& vel, const Mass& mass, ObjectPropertiesInteraction propertiesInteraction)
     {
         _name = name;
         _x = x;
@@ -60,10 +60,15 @@ namespace comput
 
     void Object::applyCollisionResponseTo(const Object &other, double dt)
     {
-        Force interactionForce = other.getInteractionForces(*this);
-        auto x = interactionForce.vec.x();
-        auto y = interactionForce.vec.y();
-        applyForce(interactionForce);
+        Force f = getCollisionResponseTo(other);
+        applyForce(f, dt);
+    }
+
+    Force Object::getCollisionResponseTo(const Object &other) const
+    {
+        Force f;
+        f += other.getInteractionForces(*this);
+        return f;
     }
 
     void Object::scale(float multiplier)
@@ -72,6 +77,11 @@ namespace comput
             return;
         _bbox.scale(multiplier);
         _scaleRect(multiplier);
+    }
+
+    Pointd Object::getPosition() const
+    {
+        return Pointd(_x, _y);
     }
 
     Velocity &Object::getVelocity() { return _vel; }

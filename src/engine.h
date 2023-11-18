@@ -1,6 +1,7 @@
 #ifndef COMPUT_ENGINE_H
 #define COMPUT_ENGINE_H
 
+#include <memory>
 #include <vector>
 
 #include "object.h"
@@ -21,11 +22,15 @@ namespace comput
 
         void update(double dt);
 
-        void applyGravity();
+        void applyGravity(double dt);
 
         void createObject(Object &obj);
 
         std::vector<Object> &getObjects();
+
+#ifdef COMPUT_DEBUG
+    void debugCollisionInteractions(SDL_Renderer *renderer);
+#endif
 
     private:
         std::vector<Object> _objects;

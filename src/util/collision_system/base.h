@@ -4,9 +4,15 @@
 #include "../../object.h"
 
 #include <string>
+#include <vector>
 
 namespace comput
 {
+    // TODO: can we actually just create a shared engine state and directly use it here? we would probably
+    // have to store some additional (perhaps mutated) information in the collision system as well,
+    // but we may be able to simply define a 'general purpose' engine state, and quickly compute what
+    // is necessary for the collision system if needed.
+
     // TODO: this is probably not a good idea, for example let's say
     // a collision system uses some sort of grid, and we'll just
     // pass in an object (to check collisions of) and a container
@@ -35,7 +41,7 @@ namespace comput
         // TODO: (engine has a copy of the objects as well,
         // this is not efficient)
         virtual void setObjects() {} // optional override
-        virtual void getObjects() {} // optional override
+        virtual void getObjects() const {} // optional override
 
         virtual void checkCollisionsOf(Object &obj,
                 std::vector<Object> &objects,
