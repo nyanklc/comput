@@ -3,6 +3,7 @@
 
 #include "bbox.h"
 #include "globals.h"
+#include "object_properties.h"
 #include "util/force.h"
 #include "util/mass.h"
 #include "util/position.h"
@@ -16,16 +17,15 @@
 
 namespace comput
 {
-
-    // this is simply a wrapper on SDL_Rect
     // objects are unique for now, there is no instantiation
     // their names are also unique (there is no check for validity currently)
     class Object
     {
     public:
-        Object(std::string &name, int x = 0, int y = 0, int w = 0, int h = 0,
+        Object(std::string name, int x = 0, int y = 0, int w = 0, int h = 0,
                const SDL_Color &col = {0, 0, 0, 255},
-               const Velocity &vel = Velocity::zero(), const Mass &mass = 0);
+               const Velocity &vel = Velocity::zero(), const Mass &mass = 0,
+               ObjectPropertiesInteraction &propertiesInteraction = ObjectPropertiesInteraction());
 
         Object(const Object &other);
 
@@ -33,9 +33,10 @@ namespace comput
 
         void update(float dt = COMPUT_SIMULATION_TIMESTEP);
 
-        virtual void applyForce(Force &f,
-                                float dt = COMPUT_SIMULATION_TIMESTEP);
+        // applies the force 'f' to itself
+        virtual void applyForce(Force &f, float dt = COMPUT_SIMULATION_TIMESTEP);
 
+        // applies the forces etc. caused by collision with object 'other' to itself
         void applyCollisionResponseTo(const Object &other, double dt);
 
         void scale(float multiplier);
@@ -52,6 +53,7 @@ namespace comput
         BBox getBBox() const;
         std::string &getName();
         std::string getName() const;
+        ObjectPropertiesInteraction& getPropertiesInteraction();
 
         void setVelocity(const Velocity &vel);
         void setMass(const Mass &mass);
@@ -59,8 +61,11 @@ namespace comput
         void setColor(const SDL_Color &col);
         void setBBox(const BBox &bbox);
         void setName(std::string &n);
+        void setPropertiesInteraction(ObjectPropertiesInteraction &propInt);
 
-        // just calls this on bbox currently
+        Force getInteractionForces(const Object &to) const;
+
+        // just calls this on bbox
         bool isCollidingWith(const Object &other) const;
 
 #ifdef COMPUT_DEBUG
@@ -89,6 +94,8 @@ namespace comput
         void _carryBbox(SDL_Rect &rect);
         // bbox can scale itself, but we need to scale rect as well
         void _scaleRect(float multiplier);
+
+        ObjectPropertiesInteraction _propertiesInteraction;
     };
 
 } // namespace comput

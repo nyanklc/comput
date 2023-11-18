@@ -9,14 +9,14 @@ namespace comput
     class BBox
     {
     public:
-        BBox(Point lL = Point{0, 0}, Point uR = Point{0, 0});
+        BBox(Pointf lL = Pointf{0, 0}, Pointf uR = Pointf{0, 0});
 
         BBox(const BBox &other);
 
         float getArea();
 
         // float division, adds error
-        Point getCenter();
+        Pointf getCenter();
 
         // scales around center point
         void scale(float multiplier);
@@ -28,8 +28,8 @@ namespace comput
 #endif
 
     protected:
-        Point _lL;
-        Point _uR;
+        Pointf _lL;
+        Pointf _uR;
     };
 
 } // namespace comput

@@ -76,21 +76,12 @@ int main(int argc, char **argv)
     SDL_RenderClear(mainRenderer);
 
     // engine setup
-    // TODO:
-    SDL_Color objColor;
-    objColor.r = 255;
-    objColor.g = 0;
-    objColor.b = 255;
-    objColor.a = 255;
-    SDL_Color objColor2;
-    objColor2.r = 0;
-    objColor2.g = 244;
-    objColor2.b = 0;
-    objColor2.a = 255;
-    std::string obj1Name = "obj1";
-    std::string obj2Name = "obj2";
-    Object obj(obj1Name, 0, 0, 30, 30, objColor, Velocity{Eigen::Vector2f(50, 0)}, 1);
-    Object obj2(obj2Name, 100, 100, 20, 20, objColor2, Velocity{Eigen::Vector2f(20, -30)}, 10);
+    SDL_Color objColor = {255, 0, 255, 255};
+    SDL_Color objColor2 = {0, 244, 0, 255};
+    Object obj("obj1", 0, 0, 30, 30, objColor, Velocity{ Eigen::Vector2f(50, 0) }, 1);
+    Object obj2("obj2", 100, 100, 20, 20, objColor2, Velocity{Eigen::Vector2f(20, -30)}, 10);
+    obj.getPropertiesInteraction().repulsionForceMagnitude = 1;
+    obj2.getPropertiesInteraction().repulsionForceMagnitude = 1;
     engine.createObject(obj);
     engine.createObject(obj2);
 

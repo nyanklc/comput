@@ -1,12 +1,12 @@
 #include "object.h"
+#include "util/util.h"
 
 #include <iostream>
 
 namespace comput
 {
 
-    Object::Object(std::string &name, int x, int y, int w, int h,
-                   const SDL_Color &col, const Velocity &vel, const Mass &mass)
+    Object::Object(std::string name, int x, int y, int w, int h, const SDL_Color& col, const Velocity& vel, const Mass& mass, ObjectPropertiesInteraction& propertiesInteraction)
     {
         _name = name;
         _x = x;
@@ -22,6 +22,7 @@ namespace comput
         _color.g = col.g;
         _color.b = col.b;
         _color.a = col.a;
+        _propertiesInteraction = propertiesInteraction;
     }
 
     Object::Object(const Object &other)
@@ -37,6 +38,7 @@ namespace comput
         _color.g = other._color.g;
         _color.b = other._color.b;
         _color.a = other._color.a;
+        _propertiesInteraction = other._propertiesInteraction;
     }
 
     // updates position with velocity (gravity is applied separately)
@@ -56,14 +58,12 @@ namespace comput
         _vel = _vel + a * dt;
     }
 
-    // TODO: better ideas and implementation
     void Object::applyCollisionResponseTo(const Object &other, double dt)
     {
-        Point centerOther = other.getBBox().getCenter();
-        Point centerThis = getBBox().getCenter();
-        float distance = centerThis.distanceTo(centerOther);
-        // TODO:
-        std::cout << "Collision response " << distance << std::endl;
+        Force interactionForce = other.getInteractionForces(*this);
+        auto x = interactionForce.vec.x();
+        auto y = interactionForce.vec.y();
+        applyForce(interactionForce);
     }
 
     void Object::scale(float multiplier)
@@ -99,7 +99,24 @@ namespace comput
     void Object::setBBox(const BBox &bbox) { _bbox = bbox; }
     void Object::setName(std::string &n) { _name = n; }
 
-    bool Object::isCollidingWith(const Object &other) const
+    Force Object::getInteractionForces(const Object& to) const
+    {
+        Force f;
+        f += _propertiesInteraction.calculateRepulsionForce(_x, _y, to._x, to._y);
+        return f;
+    }
+
+    ObjectPropertiesInteraction& Object::getPropertiesInteraction()
+    {
+        return _propertiesInteraction;
+    }
+
+    void Object::setPropertiesInteraction(ObjectPropertiesInteraction& propInt)
+    {
+        _propertiesInteraction = propInt;
+    }
+
+    bool Object::isCollidingWith(const Object& other) const
     {
         return _bbox.isCollidingWith(other._bbox);
     }
@@ -110,7 +127,7 @@ namespace comput
         float lLy = (float)rect.y + (float)rect.h;
         float uRx = (float)rect.x + (float)rect.w;
         float uRy = (float)rect.y;
-        _bbox = BBox(Point(lLx, lLy), Point(uRx, uRy));
+        _bbox = BBox(Pointf(lLx, lLy), Pointf(uRx, uRy));
     }
 
     void Object::_scaleRect(float multiplier)

@@ -7,7 +7,7 @@
 namespace comput
 {
 
-    BBox::BBox(Point lL, Point uR)
+    BBox::BBox(Pointf lL, Pointf uR)
     {
         // SDL coordinate system has inverted y, hence uR.y <= lL.y
         if (uR.y <= lL.y && uR.x >= lL.x)
@@ -19,8 +19,8 @@ namespace comput
 #ifdef COMPUT_DEBUG
         std::cerr << "Invalid BBox points provided.\n";
 #endif
-        _lL = Point{0, 0};
-        _uR = Point{0, 0};
+        _lL = Pointf{0, 0};
+        _uR = Pointf{0, 0};
     }
 
     BBox::BBox(const BBox &other)
@@ -36,9 +36,9 @@ namespace comput
 
     // you're a bed time story...
 
-    Point BBox::getCenter()
+    Pointf BBox::getCenter()
     {
-        Point p((_lL.x + _uR.x) / 2, (_lL.y + _uR.y) / 2);
+        Pointf p((_lL.x + _uR.x) / 2, (_lL.y + _uR.y) / 2);
         return p;
     }
 

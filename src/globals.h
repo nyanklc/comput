@@ -1,6 +1,7 @@
 #ifndef COMPUT_GLOBALS_H
 #define COMPUT_GLOBALS_H
 
+#include <Eigen/Dense>
 #include <SDL.h>
 
 namespace comput

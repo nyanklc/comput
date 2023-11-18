@@ -1,9 +1,9 @@
 #ifndef COMPUT_UTIL_FORCE_H
 #define COMPUT_UTIL_FORCE_H
 
-#include <Eigen/Dense>
-
 #include "mass.h"
+
+#include <Eigen/Dense>
 
 namespace comput
 {
@@ -14,6 +14,11 @@ namespace comput
         Eigen::Vector2f vec;
 
         Force() { vec = Eigen::Vector2f(0, 0); }
+
+        Force(const Eigen::Vector2f& v)
+        {
+            vec = v;
+        }
 
         Force(const Force &other) { vec = other.vec; }
 
@@ -28,6 +33,16 @@ namespace comput
         Eigen::Vector2f operator/(const Mass &m)
         {
             return Eigen::Vector2f(vec / m.value);
+        }
+
+        void operator+=(const Force& f)
+        {
+            vec += f.vec;
+        }
+
+        void operator+=(const Eigen::Vector2f &v)
+        {
+            vec += v;
         }
     };
 

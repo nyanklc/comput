@@ -46,22 +46,25 @@ if (WIN32)
 else()
   add_executable(comput_main ${PROJECT_SOURCE_DIR}/src/main.cpp)
 endif()
+
 target_link_libraries(comput_main
-  comput_object
-  comput_window_handler
   comput_engine
+  comput_object
+  comput_object_properties
+  comput_window_handler
   comput_bbox
+  comput_collision_system_brute_force
+  comput_util
   )
 
 # internal libs
 add_library(comput_engine ${PROJECT_SOURCE_DIR}/src/engine.cpp)
-target_link_libraries(comput_engine
-  comput_collision_system_brute_force
-  )
 add_library(comput_object ${PROJECT_SOURCE_DIR}/src/object.cpp)
+add_library(comput_object_properties ${PROJECT_SOURCE_DIR}/src/object_properties.cpp)
 add_library(comput_window_handler ${PROJECT_SOURCE_DIR}/src/window_handler.cpp)
 add_library(comput_bbox ${PROJECT_SOURCE_DIR}/src/bbox.cpp)
 add_library(comput_collision_system_brute_force ${PROJECT_SOURCE_DIR}/src/util/collision_system/brute_force.cpp)
+add_library(comput_util ${PROJECT_SOURCE_DIR}/src/util/util.cpp)
 
 # tests
 if (DEFINED ENV{COMPUT_TEST})

@@ -5,14 +5,14 @@
 
 namespace comput
 {
-
+    template <typename T>
     struct Position
     {
     public:
-        float x;
-        float y;
+        T x;
+        T y;
 
-        Position(float xx = 0, float yy = 0)
+        explicit Position(T xx = 0, T yy = 0)
         {
             x = xx;
             y = yy;
@@ -24,14 +24,16 @@ namespace comput
             y = other.y;
         }
 
-        float distanceTo(const Position &other) const
+        T distanceTo(const Position &other) const
         {
             using namespace std;
             return sqrt(pow(x - other.x, 2) + pow(y - other.y, 2));
         }
     };
 
-    typedef Position Point;
+    typedef Position<float> Pointf;
+    typedef Position<int> Pointi;
+    typedef Position<double> Pointd;
 
 } // namespace comput
 
