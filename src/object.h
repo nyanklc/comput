@@ -22,7 +22,8 @@ namespace comput
     class Object
     {
     public:
-        Object(std::string name, int x = 0, int y = 0, int w = 0, int h = 0,
+        Object(std::string name, bool isStatic = true, 
+               int x = 0, int y = 0, int w = 0, int h = 0,
                const SDL_Color &col = {0, 0, 0, 255},
                const Velocity &vel = Velocity::zero(), const Mass &mass = 0,
                ObjectPropertiesInteraction propertiesInteraction = ObjectPropertiesInteraction());
@@ -86,6 +87,7 @@ namespace comput
 
     protected:
         std::string _name;
+        bool _isStatic;
         double _x;
         double _y;
         SDL_Rect _rect;

@@ -1,6 +1,8 @@
 #ifndef COMPUT_UTIL_MASS_H
 #define COMPUT_UTIL_MASS_H
 
+#include <limits>
+
 namespace comput
 {
 
@@ -13,6 +15,8 @@ namespace comput
         Mass(float val) { value = val; }
 
         Mass(const Mass &other) { value = other.value; }
+
+        static Mass maxMass() { return Mass(std::numeric_limits<float>::max()); }
 
         float value;
     };

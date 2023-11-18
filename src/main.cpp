@@ -9,6 +9,7 @@
 #include "engine.h"
 #include "globals.h"
 #include "util/collision_system/brute_force.h"
+#include "util/mass.h"
 #include "util/system.h"
 #include "window_handler.h"
 
@@ -77,13 +78,17 @@ int main(int argc, char **argv)
 
     // engine setup
     SDL_Color objColor = {255, 0, 255, 255};
-    SDL_Color objColor2 = {0, 244, 0, 255};
-    Object obj("obj1", 0, 0, 30, 30, objColor, Velocity{ Eigen::Vector2f(50, 0) }, 1);
-    Object obj2("obj2", 100, 100, 20, 20, objColor2, Velocity{Eigen::Vector2f(20, -30)}, 10);
+    SDL_Color objColor2 = {0, 255, 0, 255};
+    SDL_Color objColor3 = { 0, 255, 255, 255 };
+    Object obj("obj1", false, 0, 0, 30, 30, objColor, Velocity{ Eigen::Vector2f(50, 0) }, 1);
+    Object obj2("obj2", false, 100, 100, 20, 20, objColor2, Velocity{Eigen::Vector2f(20, -30)}, 10);
+    Object obj_ground("obj_ground", true, 0, 150, COMPUT_WINDOW_DEFAULT_W, 20, objColor3, Velocity::zero(), Mass::maxMass());
     obj.getPropertiesInteraction().repulsionForceMagnitude = 1000;
     obj2.getPropertiesInteraction().repulsionForceMagnitude = 1000;
+    obj_ground.getPropertiesInteraction().repulsionForceMagnitude = 1000;
     engine.createObject(obj);
     engine.createObject(obj2);
+    engine.createObject(obj_ground);
 
     // main loop
     SDL_Event e;
@@ -112,6 +117,7 @@ int main(int argc, char **argv)
             engine.applyGravity(dt);
             engine.update(dt);
 
+            // TODO: this is not working
             engine.debugCollisionInteractions(mainRenderer);
 
             windowHandler.drawObjects(mainRenderer, engineObjects);

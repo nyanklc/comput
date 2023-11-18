@@ -6,9 +6,10 @@
 namespace comput
 {
 
-    Object::Object(std::string name, int x, int y, int w, int h, const SDL_Color& col, const Velocity& vel, const Mass& mass, ObjectPropertiesInteraction propertiesInteraction)
+    Object::Object(std::string name, bool isStatic, int x, int y, int w, int h, const SDL_Color& col, const Velocity& vel, const Mass& mass, ObjectPropertiesInteraction propertiesInteraction)
     {
         _name = name;
+        _isStatic = isStatic;
         _x = x;
         _y = y;
         _rect.x = x;
@@ -28,6 +29,7 @@ namespace comput
     Object::Object(const Object &other)
     {
         _name = other._name;
+        _isStatic = other._isStatic;
         _x = other._x;
         _y = other._y;
         _rect = other._rect;
@@ -54,6 +56,7 @@ namespace comput
 
     void Object::applyForce(Force &f, float dt)
     {
+        if (_isStatic) return;
         auto a = f / _mass;
         _vel = _vel + a * dt;
     }
