@@ -34,19 +34,32 @@ namespace comput
     class CollisionSystemBase
     {
     public:
-        CollisionSystemBase() {}
-        virtual ~CollisionSystemBase() {}
+      CollisionSystemBase() {}
+      virtual ~CollisionSystemBase() {}
 
-        // in case the system needs to store the objects
-        // TODO: (engine has a copy of the objects as well,
-        // this is not efficient)
-        virtual void setObjects() {} // optional override
-        virtual void getObjects() const {} // optional override
+      // in case the system needs to store the objects
+      // TODO: (engine has a copy of the objects as well,
+      // this is not efficient)
+      virtual void setObjects() {} // optional override
+      virtual void getObjects() const {} // optional override
 
-        virtual void checkCollisionsOf(Object &obj,
-                std::vector<Object> &objects,
-                double dt) = 0;
+      virtual void checkCollisionsOf(Object &obj,
+                                     std::vector<Object> &objects,
+                                     double dt)
+      {
+        for (auto &obj2 : objects)
+          {
+            if (obj.getName() == obj2.getName())
+              continue;
 
+            if (areColliding(obj, obj2))
+              {
+                obj.applyCollisionResponseTo(obj2, dt);
+              }
+          } 
+      }
+
+      virtual bool areColliding(const Object &obj1, const Object &obj2) = 0;
     };
 }
 

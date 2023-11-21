@@ -5,12 +5,12 @@
 
 namespace comput
 {
-    class CollisionSystemBruteForce : public CollisionSystemBase
+    class CollisionSystemAxisAligned : public CollisionSystemBase
     {
     public:
-        CollisionSystemBruteForce()
+        CollisionSystemAxisAligned()
             : CollisionSystemBase() {}
-        ~CollisionSystemBruteForce() {};
+        ~CollisionSystemAxisAligned() {};
 
         void checkCollisionsOf(Object &obj,
                 std::vector<Object> &objects,

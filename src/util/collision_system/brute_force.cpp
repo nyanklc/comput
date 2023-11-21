@@ -1,25 +1,18 @@
-#include "brute_force.h"
+#include "axis_aligned.h"
 
 namespace comput
 {
-// we're applying Newton's Third Law by checking collisions obj1->obj2 and obj2->obj1.
-// objects apply collision response based on the forces given by the other object (and environment) only,
-// and they do not exert force on the other.
-void CollisionSystemBruteForce::checkCollisionsOf(Object &obj,
-        std::vector<Object> &objects,
-        double dt)
-{
-    for (auto &obj2 : objects)
-    {
-        if (obj.getName() == obj2.getName())
-            continue;
+  bool CollisionSystemAxisAligned::areColliding(const Object &obj1, const Object &obj2)
+  {
+    BBox b1 = obj1.getBBox();
+    BBox b2 = obj2.getBBox();
 
-        if (obj.isCollidingWith(obj2))
-        {
-            obj.applyCollisionResponseTo(obj2, dt);
-        }
-    }
+    if (b1.lL().x < b2.uR().x &&
+        b1.uR().x > b2.lL().x &&
+        b1.lL().y > b2.uR().y &&
+        b1.uR().y < b2.lL().y)
+      return true;
+    return false;
 
-}
-
+  }
 }

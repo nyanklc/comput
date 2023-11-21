@@ -1,0 +1,36 @@
+#ifndef COMPUT_UTIL_COLLISION_SYSTEM_SEPARATING_AXIS_H
+#define COMPUT_UTIL_COLLISION_SYSTEM_SEPARATING_AXIS_H
+
+#include "base.h"
+
+#include <Eigen/Dense>
+
+namespace comput
+{
+  using namespace Eigen;
+
+  class CollisionSystemSeparatingAxis : public CollisionSystemBase
+  {
+  public:
+    CollisionSystemSeparatingAxis();
+
+    void checkCollisionsOf(Object &obj,
+                           std::vector<Object> &objects,
+                           double dt) override;
+
+  protected:
+    typedef std::pair<float, float> projection_t;
+
+    // utility functions
+    void _dotScalar(Vector2f &vec1, Vector2f &vec2) const;
+    Vector2f _edgeDirection(Pointf &p1, Pointf &p2) const;
+    Vector2f _orthogonal(Vector2f &vec) const;
+    std::vector<Vector2f> _verticesToEdges(std::vector<Pointf> &vertices) const;
+    projection_t _project() const;
+    bool _overlap(projection_t &p1, projection_t &p2) const;
+
+    bool _separatingAxisTheorem(const Object &obj1, const Object &obj2) const;
+  };
+}
+
+#endif

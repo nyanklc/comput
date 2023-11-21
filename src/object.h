@@ -58,6 +58,8 @@ namespace comput
         std::string getName() const;
         ObjectPropertiesInteraction& getPropertiesInteraction();
         Force getCollisionResponseTo(const Object &other) const;
+        template <typename T> std::vector<Position<T>> getPolygon() const;
+        template <typename T> std::vector<Position<T>> &getPolygon();
 
         void setVelocity(const Velocity &vel);
         void setMass(const Mass &mass);
@@ -66,11 +68,9 @@ namespace comput
         void setBBox(const BBox &bbox);
         void setName(std::string &n);
         void setPropertiesInteraction(ObjectPropertiesInteraction &propInt);
+        template <typename T> void setPolygon(const std::vector<T> &points);
 
         virtual Force getInteractionForces(const Object &to) const;
-
-        // just calls this on bbox
-        bool isCollidingWith(const Object &other) const;
 
 #ifdef COMPUT_DEBUG
         void print()
@@ -90,11 +90,10 @@ namespace comput
         bool _isStatic;
         double _x;
         double _y;
-        SDL_Rect _rect;
         Velocity _vel;
         Mass _mass;
         SDL_Color _color;
-        BBox _bbox;
+        std::vector<Pointf> _poly;
 
         void _carryBbox(SDL_Rect &rect);
         // bbox can scale itself, but we need to scale rect as well

@@ -8,7 +8,8 @@
 
 #include "engine.h"
 #include "globals.h"
-#include "util/collision_system/brute_force.h"
+#include "util/collision_system/axis_aligned.h"
+#include "util/collision_system/separating_axis.h"
 #include "util/mass.h"
 #include "util/system.h"
 #include "window_handler.h"
@@ -42,7 +43,7 @@ int main(int argc, char **argv)
 {
     // obj
     ComputEngine engine;
-    engine.setCollisionSystem(new CollisionSystemBruteForce());
+    engine.setCollisionSystem(new CollisionSystemAxisAligned());
     auto system = ComputSystem::create();
     WindowHandler windowHandler;
 

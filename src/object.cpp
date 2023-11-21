@@ -6,17 +6,13 @@
 namespace comput
 {
 
-    Object::Object(std::string name, bool isStatic, int x, int y, int w, int h, const SDL_Color& col, const Velocity& vel, const Mass& mass, ObjectPropertiesInteraction propertiesInteraction)
+  Object::Object(std::string name, bool isStatic, int x, int y, std::vector<Pointf> &poly, const SDL_Color& col, const Velocity& vel, const Mass& mass, ObjectPropertiesInteraction propertiesInteraction)
     {
         _name = name;
         _isStatic = isStatic;
         _x = x;
         _y = y;
-        _rect.x = x;
-        _rect.y = y;
-        _rect.w = w;
-        _rect.h = h;
-        _carryBbox(_rect);
+        _poly = poly;
         _vel = vel;
         _mass = mass;
         _color.r = col.r;
@@ -32,7 +28,6 @@ namespace comput
         _isStatic = other._isStatic;
         _x = other._x;
         _y = other._y;
-        _rect = other._rect;
         _bbox = other._bbox;
         _vel = other._vel;
         _mass = other._mass;
@@ -105,6 +100,17 @@ namespace comput
     std::string &Object::getName() { return _name; }
     std::string Object::getName() const { return _name; }
 
+  template <typename T> std::vector<Position<T>> Object::getPolygon() const
+  {
+    
+  }
+
+  template <typename T> std::vector<Position<T>> &Object::getPolygon()
+  {
+    return _polygon;
+  }
+
+
     void Object::setVelocity(const Velocity &vel) { _vel = vel; }
     void Object::setMass(const Mass &mass) { _mass = mass; }
     void Object::setRect(const SDL_Rect &rect) { _rect = rect; }
@@ -127,11 +133,6 @@ namespace comput
     void Object::setPropertiesInteraction(ObjectPropertiesInteraction& propInt)
     {
         _propertiesInteraction = propInt;
-    }
-
-    bool Object::isCollidingWith(const Object& other) const
-    {
-        return _bbox.isCollidingWith(other._bbox);
     }
 
     void Object::_carryBbox(SDL_Rect &rect)

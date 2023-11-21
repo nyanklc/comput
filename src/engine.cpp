@@ -52,7 +52,7 @@ namespace comput
             {
                 if (obj.getName() == obj2.getName())
                     continue;
-                if (obj.isCollidingWith(obj2))
+                if (_collisionSystem->areColliding(obj, obj2))
                 {
                     auto f = obj.getCollisionResponseTo(obj2);
                     auto pos = obj.getPosition();

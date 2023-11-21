@@ -23,6 +23,9 @@ namespace comput
 
         bool isCollidingWith(const BBox &other) const;
 
+      Pointf lL() const { return _lL; }
+      Pointf uR() const { return _uR; }
+
 #ifdef COMPUT_DEBUG
         void print() const;
 #endif
